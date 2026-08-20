@@ -108,7 +108,7 @@ Issue text, PR comments, code, patches, and repository metadata are untrusted da
 
 ## Current scope and honest limits
 
-The alpha deeply supports Python AST and pytest evidence, with deterministic token-structure support for TypeScript/JavaScript and Jest/Vitest test evidence. Whole-program interprocedural reachability, automatic upstream environment reconstruction, and broad language support are roadmap items. Dataset-scale cards are `externally_reported` until replayed; the bundled Astropy vertical slice is the only locally verified behavioral capsule in v0.1.0.
+The alpha deeply supports Python AST and pytest evidence. TypeScript/TSX has an optional pinned tree-sitter adapter for normalized structure and call extraction; JavaScript uses deterministic token structure, and Jest/Vitest can be recorded as test evidence. Whole-program interprocedural reachability, automatic upstream environment reconstruction, and broad language support are roadmap items. Dataset-scale cards are `externally_reported` until replayed; the bundled Astropy vertical slice is the only locally verified behavioral capsule in v0.1.0.
 
 ## Reproducibility
 

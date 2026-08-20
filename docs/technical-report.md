@@ -6,7 +6,7 @@ Coding agents can modify software quickly but do not reliably preserve the reaso
 
 ## System
 
-The alpha uses a dependency-free Python core. Unified diffs become path/symbol/line facts. Python fragments become normalized AST fingerprints; JavaScript/TypeScript use deterministic structural tokens pending the tree-sitter adapter. Applicability first scopes matches by historical path, then compares added code with the buggy pattern and deleted code with the fixed pattern. A dual match is critical. Regression-assertion deletion is separately reported. Results serialize to JSON, Markdown, SARIF and static HTML, and the same operations are exposed through a read-only MCP server.
+The alpha uses a dependency-free Python core. Unified diffs become path/symbol/line facts. Python fragments become normalized AST fingerprints; TypeScript/TSX can use the pinned optional tree-sitter adapter for normalized structure and call extraction, while JavaScript uses deterministic structural tokens. Applicability first scopes matches by historical path, then compares added code with the buggy pattern and deleted code with the fixed pattern. A dual match is critical. Regression-assertion deletion is separately reported. Results serialize to JSON, Markdown, SARIF and static HTML, and the same operations are exposed through a read-only MCP server.
 
 ## Evidence discipline
 
@@ -23,4 +23,3 @@ Exact reversions favor AST matching and do not represent all future regressions.
 ## Conclusion
 
 RepoImmune demonstrates a complete path from one real historical bug to a mechanically explainable future patch block. The central open question is how far repository-specific evidence generalizes beyond exact or near-exact reversions without unacceptable false positives; v0.1 exposes the artifacts needed to study that question rather than claiming it is solved.
-

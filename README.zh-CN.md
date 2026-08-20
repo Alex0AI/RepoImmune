@@ -43,7 +43,6 @@ RepoImmune 不会把相似度分数伪装成事实。每个结果必须展示命
 
 ## 当前边界
 
-v0.1 首先把 Python/pytest 做深；TypeScript/JavaScript 和 Jest/Vitest 已支持结构证据与测试定位，但还没有 Python 同等深度的 AST 语义。完整上游环境回放、跨过程调用图和更多语言属于后续计划。大规模数据卡在真正回放前标为 `externally_reported`；v0.1 中本地完整验证的行为 Capsule 是 Astropy 纵向切片。
+v0.1 首先把 Python/pytest 做深；TypeScript/TSX 已提供可选、锁定版本的 tree-sitter 结构与调用提取器，JavaScript 使用确定性结构 Token，Jest/Vitest 可记录为测试证据，但尚未达到 Python 的分析深度。完整上游环境回放、跨过程调用图和更多语言属于后续计划。大规模数据卡在真正回放前标为 `externally_reported`；v0.1 中本地完整验证的行为 Capsule 是 Astropy 纵向切片。
 
 详细英文文档、研究对比、安全模型和复现实验见主 [README](README.md)。
-
