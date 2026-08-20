@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import io
 import re
+import textwrap
 import tokenize
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -19,6 +20,7 @@ class _NamesToSlots(ast.NodeTransformer):
 
 
 def _parse_python_fragment(source: str) -> ast.AST | None:
+    source = textwrap.dedent(source).strip()
     attempts = [
         source,
         "def _fragment():\n" + "\n".join("    " + line for line in source.splitlines()),

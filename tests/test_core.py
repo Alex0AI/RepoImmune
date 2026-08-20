@@ -38,6 +38,7 @@ def test_python_structure_is_identifier_insensitive_but_value_sensitive() -> Non
     assert structural_similarity("x[a:b] = 1", "cright[-right.shape[0]:] = 1", "x.py") > 0.70
     assert python_calls("value = obj.parse(raw); emit(value)") == ["emit", "parse"]
     assert not python_fingerprint("if ???")
+    assert python_fingerprint("    target[index] = 1") == python_fingerprint("target[index] = 1")
 
 
 def test_diff_parser_tracks_paths_lines_and_symbols() -> None:
