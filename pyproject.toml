@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "repoimmune"
+version = "0.1.0"
+description = "Give your coding agent a memory of every bug your repository already fixed."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "RepoImmune contributors" }]
+keywords = ["regression", "agents", "github", "ast", "testing"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "coverage==7.10.4",
+  "mypy==1.17.1",
+  "pytest==8.4.1",
+  "ruff==0.12.9",
+  "tree-sitter==0.25.2",
+  "tree-sitter-typescript==0.23.2",
+]
+typescript = ["tree-sitter==0.25.2", "tree-sitter-typescript==0.23.2"]
+
+[project.scripts]
+repoimmune = "repoimmune.cli:main"
+repoimmune-mcp = "repoimmune.mcp:main"
+
+[project.urls]
+Homepage = "https://github.com/Alex0AI/RepoImmune"
+Repository = "https://github.com/Alex0AI/RepoImmune"
+Issues = "https://github.com/Alex0AI/RepoImmune/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/repoimmune"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["repoimmune"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = [".venv", "research/cards", "research/capsules"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["E501", "S603", "S607"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+"examples/**" = ["S101"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["repoimmune"]

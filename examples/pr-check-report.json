@@ -1,0 +1,27 @@
+{
+  "engine_version": "0.1.0",
+  "passed": false,
+  "cards_checked": 1,
+  "files_checked": 1,
+  "findings": [
+    {
+      "card_id": "astropy-12907-nested-separability",
+      "title": "Nested compound models must preserve the right-hand separability matrix",
+      "severity": "critical",
+      "reason": "This patch removes the historical fix and restores the old buggy AST structure.",
+      "path": "astropy/modeling/separable.py",
+      "line": 245,
+      "evidence_urls": [
+        "https://github.com/astropy/astropy/issues/12906",
+        "https://github.com/astropy/astropy/pull/12907",
+        "https://github.com/astropy/astropy/commit/738068e5d397490e4b1565b026a95301dc1cddec",
+        "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified"
+      ],
+      "matched_code": "        cright[-right.shape[0]:, -right.shape[1]:] = 1",
+      "checks": [
+        "historical_buggy_ast_reintroduced",
+        "historical_fix_removed"
+      ]
+    }
+  ]
+}

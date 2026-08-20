@@ -1,0 +1,7 @@
+coverage==7.10.4
+hatchling==1.27.0
+mypy==1.17.1
+pytest==8.4.1
+ruff==0.12.9
+tree-sitter==0.25.2
+tree-sitter-typescript==0.23.2

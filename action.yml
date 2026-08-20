@@ -1,0 +1,30 @@
+name: RepoImmune patch immunity
+description: Check a pull-request diff against evidence-backed historical bug memory
+branding: {icon: shield, color: green}
+inputs:
+  diff:
+    description: Git revision/range or unified diff file
+    required: false
+    default: HEAD~1
+  memory:
+    description: Behavior memory directory
+    required: false
+    default: .repoimmune
+runs:
+  using: composite
+  steps:
+    - name: Install RepoImmune locally
+      shell: bash
+      run: python -m pip install "${{ github.action_path }}"
+    - name: Generate evidence reports
+      id: check
+      shell: bash
+      run: |
+        set +e
+        repoimmune check --diff "${{ inputs.diff }}" --memory "${{ inputs.memory }}" --format markdown --output repoimmune-summary.md
+        status=$?
+        repoimmune check --diff "${{ inputs.diff }}" --memory "${{ inputs.memory }}" --format sarif --output repoimmune.sarif
+        cat repoimmune-summary.md >> "$GITHUB_STEP_SUMMARY"
+        python "${{ github.action_path }}/scripts/emit_annotations.py" repoimmune-report.json
+        exit "$status"
+

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-12907-nested-separability",
+  "title": "Nested compound models must preserve the right-hand separability matrix",
+  "bug_trigger": "Pass a nested CompoundModel as the right operand of the '&' operator.",
+  "observed_failure": "The right-hand block was filled with ones, falsely marking independent outputs as coupled.",
+  "affected_symbols": [
+    {"path": "astropy/modeling/separable.py", "symbol": "_cstack", "language": "python", "lines": [234, 247]}
+  ],
+  "buggy_pattern": {
+    "code": "cright[-right.shape[0]:, -right.shape[1]:] = 1",
+    "kind": "Assign(Subscript, Constant)",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "cright[-right.shape[0]:, -right.shape[1]:] = right",
+    "kind": "Assign(Subscript, Name)",
+    "calls": []
+  },
+  "invariant": "When the right operand already provides a separability matrix, _cstack must embed that matrix instead of replacing it with an all-coupled block.",
+  "reproducer": {
+    "capsule_id": "astropy-12907",
+    "status": "verified",
+    "scope": "A dependency-free behavioral surrogate replays the exact buggy/fixed assignment; upstream Astropy execution remains externally reported."
+  },
+  "regression_tests": [
+    {"path": "astropy/modeling/tests/test_separable.py", "name": "test_separable[cm8..cm11]", "framework": "pytest"}
+  ],
+  "applicability": {
+    "paths": ["astropy/modeling/separable.py"],
+    "symbols": ["_cstack"],
+    "languages": ["python"],
+    "negative_controls": ["Assignments that copy another computed matrix are not matches."]
+  },
+  "evidence": [
+    {"type": "issue", "url": "https://github.com/astropy/astropy/issues/12906", "observed_at": "2026-08-20T00:00:00Z"},
+    {"type": "pull_request", "url": "https://github.com/astropy/astropy/pull/12907", "sha": "efedd57cb088b6ca73f9540a3c6185ad7046c926", "observed_at": "2026-08-20T00:00:00Z"},
+    {"type": "merge_commit", "url": "https://github.com/astropy/astropy/commit/738068e5d397490e4b1565b026a95301dc1cddec", "sha": "738068e5d397490e4b1565b026a95301dc1cddec", "observed_at": "2026-08-20T00:00:00Z"},
+    {"type": "swe_bench_verified", "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified", "observed_at": "2026-08-20T00:00:00Z"}
+  ],
+  "confidence": {
+    "score": 0.97,
+    "classification": "verified",
+    "rationale": "Merged one-line fix, explicit issue linkage, added pytest cases, SWE-bench Verified record, and local structural replay agree."
+  },
+  "limitations": [
+    "The lightweight local capsule models matrix placement without importing Astropy or NumPy.",
+    "Call-path reachability is currently symbol/path scoped rather than whole-program interprocedural analysis."
+  ],
+  "source_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "fixed_commit": "738068e5d397490e4b1565b026a95301dc1cddec",
+  "repository": "astropy/astropy",
+  "license": {"spdx": "BSD-3-Clause", "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"},
+  "timestamps": {"reported": "2022-03-03T15:14:54Z", "fixed": "2022-03-04T15:24:50Z", "mined": "2026-08-20T00:00:00Z"},
+  "content_hash": "sha256:2f1d11e22f1f84988e17466c697bc86b82eaeee8bdb2067154afbcf6d9bf1157"
+}

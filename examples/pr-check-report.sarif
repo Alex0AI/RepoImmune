@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "RepoImmune",
+          "version": "0.1.0",
+          "rules": [
+            {
+              "id": "astropy-12907-nested-separability",
+              "name": "Nested compound models must preserve the right-hand separability matrix",
+              "shortDescription": {
+                "text": "This patch removes the historical fix and restores the old buggy AST structure."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "astropy-12907-nested-separability",
+          "level": "error",
+          "message": {
+            "text": "This patch removes the historical fix and restores the old buggy AST structure. Evidence: https://github.com/astropy/astropy/issues/12906, https://github.com/astropy/astropy/pull/12907, https://github.com/astropy/astropy/commit/738068e5d397490e4b1565b026a95301dc1cddec, https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "astropy/modeling/separable.py"
+                },
+                "region": {
+                  "startLine": 245
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-12907",
+  "source": "https://github.com/astropy/astropy/pull/12907",
+  "source_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "fixed_commit": "738068e5d397490e4b1565b026a95301dc1cddec",
+  "environment": {"python": ">=3.10", "dependencies": []},
+  "test_command": "Python isolated-mode runner; argv is fixed by RepoImmune and never evaluated by a shell",
+  "runs": [
+    {"name": "buggy behavior is reproduced", "args": ["test_case.py", "buggy.py"], "expected_exit": 1},
+    {"name": "fixed behavior passes", "args": ["test_case.py", "fixed.py"], "expected_exit": 0}
+  ],
+  "provenance": {"classification": "verified", "upstream_execution": "externally_reported", "local_surrogate": "verified"}
+}
+
