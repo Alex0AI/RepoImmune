@@ -20,6 +20,30 @@ def _inside(root: Path, candidate: Path) -> bool:
         return False
 
 
+def capsule_content_hash(capsule_dir: Path) -> str:
+    """Hash every regular file while excluding the manifest's self-referential hash field."""
+    root = capsule_dir.resolve()
+    digest = hashlib.sha256()
+    files = sorted((path for path in root.rglob("*") if path.is_file()), key=lambda p: p.as_posix())
+    for path in files:
+        if path.is_symlink() or not _inside(root, path):
+            raise CapsuleError("capsule contains an unsafe link or path")
+        relative = path.relative_to(root).as_posix()
+        payload = path.read_bytes()
+        if relative == "capsule.json":
+            manifest = json.loads(payload)
+            manifest.pop("content_hash", None)
+            payload = json.dumps(
+                manifest, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+            ).encode("utf-8")
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(str(len(payload)).encode("ascii"))
+        digest.update(b"\0")
+        digest.update(payload)
+    return "sha256:" + digest.hexdigest()
+
+
 def replay_capsule(capsule_dir: Path, timeout: int = 20) -> dict[str, Any]:
     root = capsule_dir.resolve()
     manifest_path = root / "capsule.json"
@@ -27,6 +51,10 @@ def replay_capsule(capsule_dir: Path, timeout: int = 20) -> dict[str, Any]:
     for path in root.rglob("*"):
         if path.is_symlink() or not _inside(root, path):
             raise CapsuleError("capsule contains an unsafe link or path")
+    content_hash = capsule_content_hash(root)
+    expected_hash = manifest.get("content_hash")
+    if expected_hash is not None and expected_hash != content_hash:
+        raise CapsuleError("capsule content hash mismatch")
     results: list[dict[str, Any]] = []
     for case in manifest.get("runs", []):
         args = case.get("args", [])
@@ -58,5 +86,5 @@ def replay_capsule(capsule_dir: Path, timeout: int = 20) -> dict[str, Any]:
         "capsule_id": manifest["id"],
         "passed": bool(results) and all(item["passed"] for item in results),
         "runs": results,
-        "content_hash": "sha256:" + hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+        "content_hash": content_hash,
     }
