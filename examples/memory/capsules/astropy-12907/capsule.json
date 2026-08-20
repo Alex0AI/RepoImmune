@@ -4,7 +4,8 @@
   "source": "https://github.com/astropy/astropy/pull/12907",
   "source_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
   "fixed_commit": "738068e5d397490e4b1565b026a95301dc1cddec",
-  "content_hash": "sha256:5c3372b38c38f021bfabb5e588d09a887133696a34b61ce06a4f683ef0231b02",
+  "content_hash": "sha256:d77f4928e7d62a26cc45bee773a628ef1797e1ab9756a267367092541472e089",
+  "files": ["buggy.py", "fixed.py", "test_case.py"],
   "environment": {"python": ">=3.10", "dependencies": []},
   "test_command": "Python isolated-mode runner; argv is fixed by RepoImmune and never evaluated by a shell",
   "runs": [

@@ -74,6 +74,7 @@ def test_capsule_rejects_invalid_and_dash_arguments(tmp_path: Path) -> None:
 def test_capsule_hash_covers_payload_and_rejects_tampering(tmp_path: Path) -> None:
     manifest = {
         "id": "hash-case",
+        "files": ["case.py"],
         "runs": [{"name": "pass", "args": ["case.py"], "expected_exit": 0}],
     }
     (tmp_path / "case.py").write_text("raise SystemExit(0)\n", encoding="utf-8")
@@ -81,6 +82,9 @@ def test_capsule_hash_covers_payload_and_rejects_tampering(tmp_path: Path) -> No
     manifest["content_hash"] = capsule_content_hash(tmp_path)
     (tmp_path / "capsule.json").write_text(json.dumps(manifest), encoding="utf-8")
     assert replay_capsule(tmp_path)["content_hash"] == manifest["content_hash"]
+    original_hash = capsule_content_hash(tmp_path)
+    (tmp_path / "case.py").write_bytes(b"raise SystemExit(0)\r\n")
+    assert capsule_content_hash(tmp_path) == original_hash
     (tmp_path / "case.py").write_text("raise SystemExit(1)\n", encoding="utf-8")
     with pytest.raises(CapsuleError, match="hash mismatch"):
         replay_capsule(tmp_path)
