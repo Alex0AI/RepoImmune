@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640">
+  <defs><radialGradient id="bg"><stop stop-color="#15362a"/><stop offset="1" stop-color="#07110e"/></radialGradient><linearGradient id="g" x2="1" y2="1"><stop stop-color="#58f2ac"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs>
+  <rect width="1280" height="640" fill="url(#bg)"/><g opacity=".12" stroke="#58f2ac"><path d="M0 100h1280M0 200h1280M0 300h1280M0 400h1280M0 500h1280"/><path d="M100 0v640M300 0v640M500 0v640M700 0v640M900 0v640M1100 0v640"/></g>
+  <path d="M169 104 291 149v84c0 77-48 124-122 148-74-24-122-71-122-148v-84z" fill="#07110e" stroke="url(#g)" stroke-width="16"/>
+  <path d="M118 196h101M118 237h73M118 278h88" stroke="#eafff5" stroke-width="15" stroke-linecap="round"/><circle cx="227" cy="196" r="14" fill="#58f2ac"/><circle cx="199" cy="237" r="14" fill="#5b8cff"/><circle cx="214" cy="278" r="14" fill="#58f2ac"/>
+  <text x="354" y="237" fill="#eafff5" font-family="Inter,Segoe UI,sans-serif" font-size="105" font-weight="750" letter-spacing="-5">Repo<tspan fill="#58f2ac">Immune</tspan></text>
+  <text x="360" y="305" fill="#b8d2c8" font-family="Inter,Segoe UI,sans-serif" font-size="30">Give your coding agent a memory of every bug</text><text x="360" y="346" fill="#b8d2c8" font-family="Inter,Segoe UI,sans-serif" font-size="30">your repository already fixed.</text>
+  <rect x="360" y="404" width="705" height="90" rx="18" fill="#0b1915" stroke="#28634c"/><text x="393" y="442" fill="#ff8a8a" font-family="Consolas,monospace" font-size="22">- fixed_pattern = right</text><text x="393" y="476" fill="#58f2ac" font-family="Consolas,monospace" font-size="22">+ historical_bug = 1  ← BLOCKED</text>
+</svg>
+

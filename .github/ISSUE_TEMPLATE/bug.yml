@@ -1,0 +1,15 @@
+name: Bug report
+description: Report a reproducible RepoImmune defect
+title: "[bug] "
+labels: [bug]
+body:
+  - type: textarea
+    attributes: {label: Reproduction, description: Include a minimal safe diff/card and exact command.}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Expected evidence, description: What evidence-backed result did you expect?}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Actual result}
+    validations: {required: true}
+

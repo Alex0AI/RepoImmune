@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 190" role="img" aria-labelledby="title desc">
+  <title id="title">RepoImmune</title><desc id="desc">A repository shield retaining code history</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#58f2ac"/><stop offset="1" stop-color="#5b8cff"/></linearGradient></defs>
+  <rect width="760" height="190" rx="34" fill="#07110e"/>
+  <path d="M92 28 154 51v43c0 39-24 63-62 75-38-12-62-36-62-75V51z" fill="none" stroke="url(#g)" stroke-width="9"/>
+  <path d="M67 75h50M67 96h36M67 117h44" stroke="#eafff5" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="121" cy="75" r="8" fill="#58f2ac"/><circle cx="107" cy="96" r="8" fill="#5b8cff"/><circle cx="115" cy="117" r="8" fill="#58f2ac"/>
+  <text x="183" y="106" fill="#eafff5" font-family="Inter,Segoe UI,sans-serif" font-size="62" font-weight="750" letter-spacing="-3">Repo<tspan fill="#58f2ac">Immune</tspan></text>
+  <text x="187" y="137" fill="#8da99e" font-family="ui-monospace,Consolas,monospace" font-size="15" letter-spacing="2">HISTORY → EVIDENCE → IMMUNITY</text>
+</svg>
+

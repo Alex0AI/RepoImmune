@@ -1,0 +1,21 @@
+name: Behavior Card proposal
+description: Propose a historical bug with primary evidence
+title: "[card] "
+labels: [behavior-card]
+body:
+  - type: input
+    attributes: {label: Repository and source PR URL}
+    validations: {required: true}
+  - type: input
+    attributes: {label: Buggy and fixed commit SHAs}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Regression test evidence}
+    validations: {required: true}
+  - type: checkboxes
+    attributes:
+      label: Evidence integrity
+      options:
+        - label: I did not infer proof from an Issue title or LLM summary alone.
+          required: true
+
