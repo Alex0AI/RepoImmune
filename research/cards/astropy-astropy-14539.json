@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14539",
+  "title": "`io.fits.FITSDiff` may sometimes report differences between identical files",
+  "bug_trigger": "A patch changes astropy/io/fits/diff.py near def _diff(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_tables, astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_data",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/fits/diff.py",
+      "symbol": "def _diff(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "elif \"P\" in col.format:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "elif \"P\" in col.format or \"Q\" in col.format:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14539",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/fits/tests/test_diff.py",
+      "name": "astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_tables",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/io/fits/tests/test_diff.py",
+      "name": "astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_data",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/fits/diff.py"
+    ],
+    "symbols": [
+      "def _diff(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14539",
+      "sha": "f8877ac3ce7d6a175c17cc741ff688f0037caa8d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/c0a24c1dc957a3b565294213f435fefb2ec99714",
+      "sha": "c0a24c1dc957a3b565294213f435fefb2ec99714",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "c0a24c1dc957a3b565294213f435fefb2ec99714",
+  "fixed_commit": "f8877ac3ce7d6a175c17cc741ff688f0037caa8d",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-03-16T18:45:19Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:8bc966ed209c14e6e5494884ef0d5111c7314b860be07cefd666df67f2b1c5cf"
+}

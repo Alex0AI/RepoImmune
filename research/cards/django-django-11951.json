@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11951",
+  "title": "bulk_create batch_size param overrides the compatible batch size calculation",
+  "bug_trigger": "A patch changes django/db/models/query.py near def _batched_insert(self, objs, fields, batch_size, ignore_conflicts=False): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_explicit_batch_size_respects_max_batch_size (bulk_create.tests.BulkCreateTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/query.py",
+      "symbol": "def _batched_insert(self, objs, fields, batch_size, ignore_conflicts=False):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "batch_size = (batch_size or max(ops.bulk_batch_size(fields, objs), 1))",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "max_batch_size = max(ops.bulk_batch_size(fields, objs), 1)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/bulk_create/tests.py",
+      "name": "test_explicit_batch_size_respects_max_batch_size (bulk_create.tests.BulkCreateTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/query.py"
+    ],
+    "symbols": [
+      "def _batched_insert(self, objs, fields, batch_size, ignore_conflicts=False):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11951",
+      "sha": "09578f6dfb757c55f107e30a85434cedeb47465a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/312049091288dbba2299de8d07ea3e3311ed7238",
+      "sha": "312049091288dbba2299de8d07ea3e3311ed7238",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "312049091288dbba2299de8d07ea3e3311ed7238",
+  "fixed_commit": "09578f6dfb757c55f107e30a85434cedeb47465a",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-10-21T09:35:46Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:605627850e6344354f8e669ec6ebba588bde3e3878c3c731b10e3039f400c169"
+}

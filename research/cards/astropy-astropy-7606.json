@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-7606",
+  "title": "Unit equality comparison with None raises TypeError for UnrecognizedUnit",
+  "bug_trigger": "A patch changes astropy/units/core.py near def __eq__(self, other): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/units/tests/test_units.py::test_unknown_unit3",
+  "affected_symbols": [
+    {
+      "path": "astropy/units/core.py",
+      "symbol": "def __eq__(self, other):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return False",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "return NotImplemented",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-7606",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/units/tests/test_units.py",
+      "name": "astropy/units/tests/test_units.py::test_unknown_unit3",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/units/core.py"
+    ],
+    "symbols": [
+      "def __eq__(self, other):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/7606",
+      "sha": "99a7d9f6ff5b0aa0f4971e7cfcdff19f7e4710e2",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/3cedd79e6c121910220f8e6df77c54a0b344ea94",
+      "sha": "3cedd79e6c121910220f8e6df77c54a0b344ea94",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "3cedd79e6c121910220f8e6df77c54a0b344ea94",
+  "fixed_commit": "99a7d9f6ff5b0aa0f4971e7cfcdff19f7e4710e2",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2018-06-29T16:27:46Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:fe4010dda911131fb8502366d2ed975ea832f2b8ca26a6d04c88df7a5d48bbf4"
+}

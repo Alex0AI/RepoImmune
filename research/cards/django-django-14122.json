@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14122",
+  "title": "Meta.ordering fields must not be included in GROUP BY clause",
+  "bug_trigger": "A patch changes django/db/models/sql/compiler.py near def get_group_by(self, select, order_by): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_default_ordering_does_not_affect_group_by (ordering.tests.OrderingTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/compiler.py",
+      "symbol": "def get_group_by(self, select, order_by):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "for expr, (sql, params, is_ref) in order_by:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if not self._meta_ordering:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/ordering/tests.py",
+      "name": "test_default_ordering_does_not_affect_group_by (ordering.tests.OrderingTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/compiler.py"
+    ],
+    "symbols": [
+      "def get_group_by(self, select, order_by):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14122",
+      "sha": "330bc402a8d2d8f23cf2e07d9dabf333003677d3",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/bc04941bf811d1ea2c79fb7fc20457ed2c7e3410",
+      "sha": "bc04941bf811d1ea2c79fb7fc20457ed2c7e3410",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "bc04941bf811d1ea2c79fb7fc20457ed2c7e3410",
+  "fixed_commit": "330bc402a8d2d8f23cf2e07d9dabf333003677d3",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-03-13T19:57:16Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:b16cb78f3bfc7a6b5d846bea4f8de0f074df7fb6fe5eb1fc1a628ca471898c55"
+}

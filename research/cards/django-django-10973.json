@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10973",
+  "title": "Use subprocess.run and PGPASSWORD for client in postgres backend",
+  "bug_trigger": "A patch changes django/db/backends/postgresql/client.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 5 fail-to-pass test(s): test_accent (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase), test_basic (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase), test_column (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase), test_nopass (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase), SIGINT is ign",
+  "affected_symbols": [
+    {
+      "path": "django/db/backends/postgresql/client.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "from django.core.files.temp import NamedTemporaryFile",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "subprocess_env = os.environ.copy()",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-10973",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/dbshell/test_postgresql.py",
+      "name": "test_accent (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/dbshell/test_postgresql.py",
+      "name": "test_basic (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/dbshell/test_postgresql.py",
+      "name": "test_column (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/dbshell/test_postgresql.py",
+      "name": "test_nopass (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/dbshell/test_postgresql.py",
+      "name": "SIGINT is ignored in Python and passed to psql to abort quries.",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/backends/postgresql/client.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/10973",
+      "sha": "cf826c9a91015c8da2ad4910b12e2ed83e2fb20f",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/ddb293685235fd09e932805771ae97f72e817181",
+      "sha": "ddb293685235fd09e932805771ae97f72e817181",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "ddb293685235fd09e932805771ae97f72e817181",
+  "fixed_commit": "cf826c9a91015c8da2ad4910b12e2ed83e2fb20f",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-02-11T01:19:56Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:d88ff519c3973b7eb8ec539749c04eabbeb42acfb6a6c94f7caec04281adbcf2"
+}

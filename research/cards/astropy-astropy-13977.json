@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-13977",
+  "title": "Should `Quantity.__array_ufunc__()` return `NotImplemented` instead of raising `ValueError` if the inputs are incompatib",
+  "bug_trigger": "A patch changes astropy/units/quantity.py near def __array_ufunc__(self, function, method, *inputs, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 20 fail-to-pass test(s): astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity0-add], astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity0-less], astropy/units/tes",
+  "affected_symbols": [
+    {
+      "path": "astropy/units/quantity.py",
+      "symbol": "def __array_ufunc__(self, function, method, *inputs, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "result : `~astropy.units.Quantity`",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "result : `~astropy.units.Quantity` or `NotImplemented`",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-13977",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity0-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity0-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity1-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity0-quantity1-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity1-quantity0-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity1-quantity0-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity1-quantity1-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[None-duck_quantity1-quantity1-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity0-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity0-multiply]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity0-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity1-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity1-multiply]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity0-quantity1-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity0-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity0-multiply]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity0-less]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity1-add]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity1-multiply]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_quantity.py",
+      "name": "astropy/units/tests/test_quantity_ufuncs.py::TestUfuncReturnsNotImplemented::TestBinaryUfuncs::test_full[empty-duck_quantity1-quantity1-less]",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/units/quantity.py"
+    ],
+    "symbols": [
+      "def __array_ufunc__(self, function, method, *inputs, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/13977",
+      "sha": "d083189bbc188807c3d62bd419ea5bbf38cf7d56",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/5250b2442501e6c671c6b380536f1edb352602d1",
+      "sha": "5250b2442501e6c671c6b380536f1edb352602d1",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "5250b2442501e6c671c6b380536f1edb352602d1",
+  "fixed_commit": "d083189bbc188807c3d62bd419ea5bbf38cf7d56",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2022-11-01T22:24:58Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:b84ffaa1f0cd055e4574e84692d1dfacd1d15ed126a037272193c3930d7cfea9"
+}

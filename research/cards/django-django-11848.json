@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11848",
+  "title": "django.utils.http.parse_http_date two digit year check is incorrect",
+  "bug_trigger": "A patch changes django/utils/http.py near def parse_http_date(date): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_parsing_rfc850 (utils_tests.test_http.HttpDateProcessingTests), test_parsing_year_less_than_70 (utils_tests.test_http.HttpDateProcessingTests)",
+  "affected_symbols": [
+    {
+      "path": "django/utils/http.py",
+      "symbol": "def parse_http_date(date):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if year < 70:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "current_year = datetime.datetime.utcnow().year",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/utils_tests/test_http.py",
+      "name": "test_parsing_rfc850 (utils_tests.test_http.HttpDateProcessingTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/utils_tests/test_http.py",
+      "name": "test_parsing_year_less_than_70 (utils_tests.test_http.HttpDateProcessingTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/utils/http.py"
+    ],
+    "symbols": [
+      "def parse_http_date(date):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11848",
+      "sha": "7b5f8acb9e6395a1660dd7bfeb365866ca8ef47c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/f0adf3b9b7a19cdee05368ff0c0c2d087f011180",
+      "sha": "f0adf3b9b7a19cdee05368ff0c0c2d087f011180",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "f0adf3b9b7a19cdee05368ff0c0c2d087f011180",
+  "fixed_commit": "7b5f8acb9e6395a1660dd7bfeb365866ca8ef47c",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-09-28T04:28:22Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:46c2ac2c2664dd9b1e716bb80bf607297fd8b1298df7a51938d731b0bcdd3cff"
+}

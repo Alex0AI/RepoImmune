@@ -1,0 +1,1 @@
+"""Format a floating number to make sure it gets the decimal point."""

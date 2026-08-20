@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12155",
+  "title": "docutils reports an error rendering view docstring when the first line is not empty",
+  "bug_trigger": "A patch changes django/contrib/admindocs/utils.py near def get_view_name(view_func): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_parse_rst_with_docstring_no_leading_line_feed (admin_docs.test_utils.TestUtils)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admindocs/utils.py",
+      "symbol": "def get_view_name(view_func):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "def trim_docstring(docstring):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "from inspect import cleandoc",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_docs/test_utils.py",
+      "name": "test_parse_rst_with_docstring_no_leading_line_feed (admin_docs.test_utils.TestUtils)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admindocs/utils.py"
+    ],
+    "symbols": [
+      "def get_view_name(view_func):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12155",
+      "sha": "f47ba7e78033f39742c3bf491e9b15365cefd0db",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e8fcdaad5c428878d0a5d6ba820d957013f75595",
+      "sha": "e8fcdaad5c428878d0a5d6ba820d957013f75595",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e8fcdaad5c428878d0a5d6ba820d957013f75595",
+  "fixed_commit": "f47ba7e78033f39742c3bf491e9b15365cefd0db",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-11-28T16:24:23Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:5cdcae10f2d1af81cf3fcfc76d52cb872d28284e3d949ecbcb9d6ac7e98f50b1"
+}

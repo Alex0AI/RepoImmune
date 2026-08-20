@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11276",
+  "title": "Use Python stdlib html.escape() to in django.utils.html.escape()",
+  "bug_trigger": "A patch changes django/utils/html.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 26 fail-to-pass test(s): test_make_list02 (template_tests.filter_tests.test_make_list.MakeListTests), test_password_help_text (auth_tests.test_forms.UserCreationFormTest), test_url_split_chars (template_tests.filter_tests.test_urlize.FunctionTests), test_wrapping_characters (template_tests.filter_tests.test_urlize.FunctionT",
+  "affected_symbols": [
+    {
+      "path": "django/utils/html.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "_html_escapes = {",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "import html",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_make_list02 (template_tests.filter_tests.test_make_list.MakeListTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_password_help_text (auth_tests.test_forms.UserCreationFormTest)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_url_split_chars (template_tests.filter_tests.test_urlize.FunctionTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_wrapping_characters (template_tests.filter_tests.test_urlize.FunctionTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_addslashes02 (template_tests.filter_tests.test_addslashes.AddslashesTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_title1 (template_tests.filter_tests.test_title.TitleTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_urlize01 (template_tests.filter_tests.test_urlize.UrlizeTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_urlize06 (template_tests.filter_tests.test_urlize.UrlizeTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_html_escaped (forms_tests.widget_tests.test_clearablefileinput.ClearableFileInputTest)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_url12 (template_tests.syntax_tests.test_url.UrlTagTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_initial_values (model_forms.tests.ModelFormBasicTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_m2m_initial_callable (model_forms.tests.ModelFormBasicTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_multi_fields (model_forms.tests.ModelFormBasicTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_runtime_choicefield_populated (model_forms.tests.ModelFormBasicTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_no_referer (view_tests.tests.test_csrf.CsrfViewTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_escape (utils_tests.test_html.TestUtilsHtml)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_escapejs (utils_tests.test_html.TestUtilsHtml)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_escaping (forms_tests.tests.test_forms.FormsTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_templates_with_forms (forms_tests.tests.test_forms.FormsTestCase)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "An exception report can be generated without request",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/utils/html.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11276",
+      "sha": "8d76443aba863b75ad3b1392ca7e1d59bad84dc4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/28d5262fa3315690395f04e3619ed554dbaf725b",
+      "sha": "28d5262fa3315690395f04e3619ed554dbaf725b",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "28d5262fa3315690395f04e3619ed554dbaf725b",
+  "fixed_commit": "8d76443aba863b75ad3b1392ca7e1d59bad84dc4",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-04-24T12:35:05Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:ba9ecf96791d827f6124a5fb18537d52eba6a9f9be935988248544006813b79b"
+}

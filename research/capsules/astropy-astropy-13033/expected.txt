@@ -1,0 +1,1 @@
+def as_scalar_or_list_str(obj):

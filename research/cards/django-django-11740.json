@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11740",
+  "title": "Change uuid field to FK does not create dependency",
+  "bug_trigger": "A patch changes django/db/migrations/autodetector.py near def generate_altered_fields(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_alter_field_to_fk_dependency_other_app (migrations.test_autodetector.AutodetectorTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/migrations/autodetector.py",
+      "symbol": "def generate_altered_fields(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": ")",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "dependencies = []",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/migrations/test_autodetector.py",
+      "name": "test_alter_field_to_fk_dependency_other_app (migrations.test_autodetector.AutodetectorTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/migrations/autodetector.py"
+    ],
+    "symbols": [
+      "def generate_altered_fields(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11740",
+      "sha": "5931d2e96ae94b204d146b7f751e0e804da74953",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "sha": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "003bb34b218adb23d1a7e67932a6ba9b3c4dcc81",
+  "fixed_commit": "5931d2e96ae94b204d146b7f751e0e804da74953",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-09-03T10:44:38Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:7ae2916f39b74ebe76bc75253faa808d5e3921481ba83dc35f2d60cd825d317c"
+}

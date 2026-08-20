@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11885",
+  "title": "Combine fast delete queries",
+  "bug_trigger": "A patch changes django/contrib/admin/utils.py near def collect(self, objs, source=None, source_attr=None, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_fast_delete_combined_relationships (delete.tests.FastDeleteTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admin/utils.py",
+      "symbol": "def collect(self, objs, source=None, source_attr=None, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "def related_objects(self, related, objs):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def related_objects(self, related_model, related_fields, objs):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/delete/tests.py",
+      "name": "test_fast_delete_combined_relationships (delete.tests.FastDeleteTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admin/utils.py"
+    ],
+    "symbols": [
+      "def collect(self, objs, source=None, source_attr=None, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11885",
+      "sha": "26c66f45193fa65125ca06328817927d6bbc2b22",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/04ac9b45a34440fa447feb6ae934687aacbfc5f4",
+      "sha": "04ac9b45a34440fa447feb6ae934687aacbfc5f4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "04ac9b45a34440fa447feb6ae934687aacbfc5f4",
+  "fixed_commit": "26c66f45193fa65125ca06328817927d6bbc2b22",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-10-08T15:22:07Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:b451d6936d1ccc1a14e602f8c0b96f860939d9596f96af003f7ff8f771fe4a24"
+}

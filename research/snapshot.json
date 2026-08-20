@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-08-20T13:22:10Z",
+  "source": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+  "requested_candidates": 500,
+  "candidates": 500,
+  "cards": 120,
+  "repositories": [
+    "astropy/astropy",
+    "django/django",
+    "matplotlib/matplotlib",
+    "mwaskom/seaborn",
+    "pallets/flask",
+    "psf/requests",
+    "pydata/xarray",
+    "pylint-dev/pylint",
+    "pytest-dev/pytest",
+    "scikit-learn/scikit-learn",
+    "sphinx-doc/sphinx",
+    "sympy/sympy"
+  ],
+  "licenses": {
+    "astropy/astropy": {
+      "spdx": "BSD-3-Clause",
+      "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+    },
+    "django/django": {
+      "spdx": "BSD-3-Clause",
+      "source": "https://github.com/django/django/blob/main/LICENSE"
+    },
+    "matplotlib/matplotlib": {
+      "spdx": "NOASSERTION",
+      "source": "https://github.com/matplotlib/matplotlib"
+    },
+    "mwaskom/seaborn": {
+      "spdx": "BSD-3-Clause",
+      "source": "https://github.com/mwaskom/seaborn/blob/master/LICENSE.md"
+    },
+    "pallets/flask": {
+      "spdx": "BSD-3-Clause",
+      "source": "https://github.com/pallets/flask/blob/main/LICENSE.txt"
+    },
+    "psf/requests": {
+      "spdx": "Apache-2.0",
+      "source": "https://github.com/psf/requests/blob/main/LICENSE"
+    },
+    "pydata/xarray": {
+      "spdx": "Apache-2.0",
+      "source": "https://github.com/pydata/xarray/blob/main/LICENSE"
+    },
+    "pylint-dev/pylint": {
+      "spdx": "GPL-2.0",
+      "source": "https://github.com/pylint-dev/pylint/blob/main/LICENSE"
+    },
+    "pytest-dev/pytest": {
+      "spdx": "MIT",
+      "source": "https://github.com/pytest-dev/pytest/blob/main/LICENSE"
+    },
+    "scikit-learn/scikit-learn": {
+      "spdx": "BSD-3-Clause",
+      "source": "https://github.com/scikit-learn/scikit-learn/blob/main/COPYING"
+    },
+    "sphinx-doc/sphinx": {
+      "spdx": "NOASSERTION",
+      "source": "https://github.com/sphinx-doc/sphinx/blob/master/LICENSE.rst"
+    },
+    "sympy/sympy": {
+      "spdx": "NOASSERTION",
+      "source": "https://github.com/sympy/sympy/blob/master/LICENSE"
+    }
+  },
+  "categories": {
+    "async": 3,
+    "boundary": 56,
+    "cache": 14,
+    "exception": 104,
+    "null": 108,
+    "other": 178,
+    "pagination": 4,
+    "serialization": 6,
+    "state": 27
+  },
+  "capsules": 30,
+  "classifications": {
+    "cards": "externally_reported",
+    "capsules": "heuristic structural replay"
+  }
+}

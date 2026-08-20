@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13933",
+  "title": "ModelChoiceField does not provide value of invalid choice when raising ValidationError",
+  "bug_trigger": "A patch changes django/forms/models.py near def to_python(self, value): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_modelchoicefield_value_placeholder (forms_tests.tests.test_error_messages.ModelChoiceFieldErrorMessagesTestCase)",
+  "affected_symbols": [
+    {
+      "path": "django/forms/models.py",
+      "symbol": "def to_python(self, value):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "raise ValidationError(self.error_messages['invalid_choice'], code='invalid_choice')",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "raise ValidationError(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/forms_tests/tests/test_error_messages.py",
+      "name": "test_modelchoicefield_value_placeholder (forms_tests.tests.test_error_messages.ModelChoiceFieldErrorMessagesTestCase)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/forms/models.py"
+    ],
+    "symbols": [
+      "def to_python(self, value):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13933",
+      "sha": "1adc09064f88b69b3b565b57502f2a0a32b5f3a8",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/42e8cf47c7ee2db238bf91197ea398126c546741",
+      "sha": "42e8cf47c7ee2db238bf91197ea398126c546741",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "42e8cf47c7ee2db238bf91197ea398126c546741",
+  "fixed_commit": "1adc09064f88b69b3b565b57502f2a0a32b5f3a8",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-01-26T03:58:23Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:8c2f46688fa9a5679b19e2f417c7d9e282142faab2dab7cba38c14ec5b425a33"
+}

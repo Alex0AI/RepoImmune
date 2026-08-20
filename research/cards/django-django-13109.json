@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13109",
+  "title": "ForeignKey.validate() should validate using the base manager.",
+  "bug_trigger": "A patch changes django/db/models/fields/related.py near def validate(self, value, model_instance): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_FK_validates_using_base_manager (validation.tests.BaseModelValidationTests), test_validate_foreign_key_to_model_with_overridden_manager (model_forms.tests.ModelFormBasicTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/fields/related.py",
+      "symbol": "def validate(self, value, model_instance):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "qs = self.remote_field.model._default_manager.using(using).filter(",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "qs = self.remote_field.model._base_manager.using(using).filter(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/model_forms/models.py",
+      "name": "test_FK_validates_using_base_manager (validation.tests.BaseModelValidationTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/model_forms/models.py",
+      "name": "test_validate_foreign_key_to_model_with_overridden_manager (model_forms.tests.ModelFormBasicTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/fields/related.py"
+    ],
+    "symbols": [
+      "def validate(self, value, model_instance):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13109",
+      "sha": "e13cfc6dfd4212ef7a40db1a41d3ae6ac4b97de0",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/fbe82f82555bc25dccb476c749ca062f0b522be3",
+      "sha": "fbe82f82555bc25dccb476c749ca062f0b522be3",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "fbe82f82555bc25dccb476c749ca062f0b522be3",
+  "fixed_commit": "e13cfc6dfd4212ef7a40db1a41d3ae6ac4b97de0",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-06-25T08:36:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:e275f74329fb2680bd17564409ede829e9c81ba0095cddfba56563c71fa2cdfc"
+}

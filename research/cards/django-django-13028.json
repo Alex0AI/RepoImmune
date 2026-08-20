@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13028",
+  "title": "Queryset raises NotSupportedError when RHS has filterable=False attribute.",
+  "bug_trigger": "A patch changes django/db/models/sql/query.py near def check_related_objects(self, field, value, opts): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_field_with_filterable (queries.tests.Queries1Tests), test_ticket8439 (queries.tests.Queries1Tests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/query.py",
+      "symbol": "def check_related_objects(self, field, value, opts):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if not getattr(expression, 'filterable', True):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if (",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/queries/models.py",
+      "name": "test_field_with_filterable (queries.tests.Queries1Tests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/queries/models.py",
+      "name": "test_ticket8439 (queries.tests.Queries1Tests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/query.py"
+    ],
+    "symbols": [
+      "def check_related_objects(self, field, value, opts):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13028",
+      "sha": "b38d44229ff185ad156bcb443d6db0db7ae3eb98",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/78ad4b4b0201003792bfdbf1a7781cbc9ee03539",
+      "sha": "78ad4b4b0201003792bfdbf1a7781cbc9ee03539",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "78ad4b4b0201003792bfdbf1a7781cbc9ee03539",
+  "fixed_commit": "b38d44229ff185ad156bcb443d6db0db7ae3eb98",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-06-05T19:49:04Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:b86a1d486520161562913bf20f0d30a05274d109583bc38fdcebb41b76e108ea"
+}

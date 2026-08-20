@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13809",
+  "title": "Add --skip-checks option to the runserver command.",
+  "bug_trigger": "A patch changes django/core/management/commands/runserver.py near def inner_run(self, *args, **options): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_skip_checks (admin_scripts.tests.ManageRunserver)",
+  "affected_symbols": [
+    {
+      "path": "django/core/management/commands/runserver.py",
+      "symbol": "def inner_run(self, *args, **options):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "self.stdout.write(\"Performing system checks...\\n\\n\")",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "parser.add_argument(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_scripts/tests.py",
+      "name": "test_skip_checks (admin_scripts.tests.ManageRunserver)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/management/commands/runserver.py"
+    ],
+    "symbols": [
+      "def inner_run(self, *args, **options):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13809",
+      "sha": "34aa4f1997bd7f1fb0c43d6d1c6848e86b928f2e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "sha": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "bef6f7584280f1cc80e5e2d80b7ad073a93d26ec",
+  "fixed_commit": "34aa4f1997bd7f1fb0c43d6d1c6848e86b928f2e",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-12-24T15:31:35Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:1efb87712e971c3628bd03c6669c5ca9560c6d44236bda610eb89356efb6957f"
+}

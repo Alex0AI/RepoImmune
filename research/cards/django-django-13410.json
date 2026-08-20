@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13410",
+  "title": "Bug in posix implementation of django/core/files/locks.py",
+  "bug_trigger": "A patch changes django/core/files/locks.py near def unlock(f): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_exclusive_lock (files.tests.FileTests), test_shared_lock (files.tests.FileTests)",
+  "affected_symbols": [
+    {
+      "path": "django/core/files/locks.py",
+      "symbol": "def unlock(f):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "ret = fcntl.flock(_fd(f), flags)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "try:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/files/tests.py",
+      "name": "test_exclusive_lock (files.tests.FileTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/files/tests.py",
+      "name": "test_shared_lock (files.tests.FileTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/files/locks.py"
+    ],
+    "symbols": [
+      "def unlock(f):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13410",
+      "sha": "7be6a6a4d665061e8bc6a741b16ff92353f5d19e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/580a4341cb0b4cbfc215a70afc004875a7e815f4",
+      "sha": "580a4341cb0b4cbfc215a70afc004875a7e815f4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "580a4341cb0b4cbfc215a70afc004875a7e815f4",
+  "fixed_commit": "7be6a6a4d665061e8bc6a741b16ff92353f5d19e",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-09-11T09:58:41Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9a451adbf9144a2ede074117862017b515a0c320ca796c2cb01cc5f0712f9cdc"
+}

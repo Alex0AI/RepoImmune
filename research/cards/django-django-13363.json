@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13363",
+  "title": "Add support for tzinfo parameter to TruncDate() and TruncTime().",
+  "bug_trigger": "A patch changes django/db/models/functions/datetime.py near class TruncDate(TruncBase): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_trunc_timezone_applied_before_truncation (db_functions.datetime.test_extract_trunc.DateFunctionWithTimeZoneTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/functions/datetime.py",
+      "symbol": "class TruncDate(TruncBase):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "tzname = timezone.get_current_timezone_name() if settings.USE_TZ else None",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "tzname = self.get_tzname()",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/db_functions/datetime/test_extract_trunc.py",
+      "name": "test_trunc_timezone_applied_before_truncation (db_functions.datetime.test_extract_trunc.DateFunctionWithTimeZoneTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/functions/datetime.py"
+    ],
+    "symbols": [
+      "class TruncDate(TruncBase):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13363",
+      "sha": "9d5d865fd6e989abe60fdf02e7f97fd4d98178a4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/76e0151ea0e0f56dca66cee846a78b89346d2c4c",
+      "sha": "76e0151ea0e0f56dca66cee846a78b89346d2c4c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "76e0151ea0e0f56dca66cee846a78b89346d2c4c",
+  "fixed_commit": "9d5d865fd6e989abe60fdf02e7f97fd4d98178a4",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-08-29T18:59:41Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:56f39566240f26816de1c9d0e0470b4af29166d65a0c469d9dab5cfe94557d28"
+}

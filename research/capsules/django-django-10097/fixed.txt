@@ -1,0 +1,1 @@
+r'(?:[^\s:@/]+(?::[^\s:@/]*)?@)?'  # user:pass authentication

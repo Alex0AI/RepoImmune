@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11133",
+  "title": "HttpResponse doesn't handle memoryview objects",
+  "bug_trigger": "A patch changes django/http/response.py near def make_bytes(self, value): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_memoryview_content (httpwrappers.tests.HttpResponseTests)",
+  "affected_symbols": [
+    {
+      "path": "django/http/response.py",
+      "symbol": "def make_bytes(self, value):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if isinstance(value, bytes):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if isinstance(value, (bytes, memoryview)):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/httpwrappers/tests.py",
+      "name": "test_memoryview_content (httpwrappers.tests.HttpResponseTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/http/response.py"
+    ],
+    "symbols": [
+      "def make_bytes(self, value):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11133",
+      "sha": "9aa56cb0d5dede7fc176a46c745dfd3dacdad773",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/879cc3da6249e920b8d54518a0ae06de835d7373",
+      "sha": "879cc3da6249e920b8d54518a0ae06de835d7373",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "879cc3da6249e920b8d54518a0ae06de835d7373",
+  "fixed_commit": "9aa56cb0d5dede7fc176a46c745dfd3dacdad773",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-03-27T06:48:09Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:95c0a80f0e7bcb72d70216a31ee91d5b061f3cde282652f8ebc2fa1ffd030551"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13821",
+  "title": "Drop support for SQLite < 3.9.0",
+  "bug_trigger": "A patch changes django/db/backends/sqlite3/base.py near def list_aggregate(function): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_check_sqlite_version (backends.sqlite.tests.Tests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/backends/sqlite3/base.py",
+      "symbol": "def list_aggregate(function):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if Database.sqlite_version_info < (3, 8, 3):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if Database.sqlite_version_info < (3, 9, 0):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/backends/sqlite/tests.py",
+      "name": "test_check_sqlite_version (backends.sqlite.tests.Tests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/backends/sqlite3/base.py"
+    ],
+    "symbols": [
+      "def list_aggregate(function):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13821",
+      "sha": "74fd233b1433da8c68de636172ee1c9c6d1c08c9",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e64c1d8055a3e476122633da141f16b50f0c4a2d",
+      "sha": "e64c1d8055a3e476122633da141f16b50f0c4a2d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e64c1d8055a3e476122633da141f16b50f0c4a2d",
+  "fixed_commit": "74fd233b1433da8c68de636172ee1c9c6d1c08c9",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-12-29T15:16:10Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:1425530001631969db3b3d570ed5f6c4dc9a112cfb52c7811f82a3687b5f08be"
+}

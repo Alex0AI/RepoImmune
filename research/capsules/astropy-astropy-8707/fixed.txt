@@ -1,0 +1,1 @@
+__doctest_skip__ = ['Header', 'Header.comments', 'Header.fromtextfile',

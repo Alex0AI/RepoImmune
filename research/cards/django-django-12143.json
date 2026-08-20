@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12143",
+  "title": "Possible data loss in admin changeform view when using regex special characters in formset prefix",
+  "bug_trigger": "A patch changes django/contrib/admin/options.py near def change_view(self, request, object_id, form_url='', extra_context=None): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_get_list_editable_queryset_with_regex_chars_in_prefix (admin_changelist.tests.ChangeListTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admin/options.py",
+      "symbol": "def change_view(self, request, object_id, form_url='', extra_context=None):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "pk_pattern = re.compile(r'{}-\\d+-{}$'.format(prefix, self.model._meta.pk.name))",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "pk_pattern = re.compile(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_changelist/tests.py",
+      "name": "test_get_list_editable_queryset_with_regex_chars_in_prefix (admin_changelist.tests.ChangeListTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admin/options.py"
+    ],
+    "symbols": [
+      "def change_view(self, request, object_id, form_url='', extra_context=None):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12143",
+      "sha": "52936efacec4df05df2d9872c09c3332335bf21b",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/5573a54d409bb98b5c5acdb308310bed02d392c2",
+      "sha": "5573a54d409bb98b5c5acdb308310bed02d392c2",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "5573a54d409bb98b5c5acdb308310bed02d392c2",
+  "fixed_commit": "52936efacec4df05df2d9872c09c3332335bf21b",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-11-25T14:38:30Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9655dccaf0056cdc5755c3a4df78223b12b51dd636a5649ee810240fb77c476b"
+}

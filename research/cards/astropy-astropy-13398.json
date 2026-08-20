@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-13398",
+  "title": "A direct approach to ITRS to Observed transformations that stays within the ITRS.",
+  "bug_trigger": "A patch changes astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py near def tete_to_itrs_mat(time, rbpn=None): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 4 fail-to-pass test(s): astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_altaz_with_refraction, astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_hadec_with_refraction, astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_itrs_topo, astro",
+  "affected_symbols": [
+    {
+      "path": "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py",
+      "symbol": "def tete_to_itrs_mat(time, rbpn=None):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "# now determine the greenwich apparent siderial time for the input obstime",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "# now determine the greenwich apparent sidereal time for the input obstime",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-13398",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/coordinates/tests/test_intermediate_transformations.py",
+      "name": "astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_altaz_with_refraction",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/coordinates/tests/test_intermediate_transformations.py",
+      "name": "astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_hadec_with_refraction",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/coordinates/tests/test_intermediate_transformations.py",
+      "name": "astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_itrs_topo",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/coordinates/tests/test_intermediate_transformations.py",
+      "name": "astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_straight_overhead",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py"
+    ],
+    "symbols": [
+      "def tete_to_itrs_mat(time, rbpn=None):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/13398",
+      "sha": "1efaab7bb3c117a14d3f6accf77239a44e59e0df",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/6500928dc0e57be8f06d1162eacc3ba5e2eff692",
+      "sha": "6500928dc0e57be8f06d1162eacc3ba5e2eff692",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "6500928dc0e57be8f06d1162eacc3ba5e2eff692",
+  "fixed_commit": "1efaab7bb3c117a14d3f6accf77239a44e59e0df",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2022-06-24T15:22:11Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9911534517f1f3ef73508939880a8102bc7921927617ad780ad7188198293555"
+}

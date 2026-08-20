@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13551",
+  "title": "Changing user's email could invalidate password reset tokens",
+  "bug_trigger": "A patch changes django/contrib/auth/tokens.py near def _make_token_with_timestamp(self, user, timestamp, legacy=False): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): Updating the user email address invalidates the token., test_token_with_different_secret (auth_tests.test_tokens.TokenGeneratorTest)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/auth/tokens.py",
+      "symbol": "def _make_token_with_timestamp(self, user, timestamp, legacy=False):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "Hash the user's primary key and some user state that's sure to change",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "Hash the user's primary key, email (if available), and some user state",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/auth_tests/models/__init__.py",
+      "name": "Updating the user email address invalidates the token.",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/auth_tests/models/__init__.py",
+      "name": "test_token_with_different_secret (auth_tests.test_tokens.TokenGeneratorTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/auth/tokens.py"
+    ],
+    "symbols": [
+      "def _make_token_with_timestamp(self, user, timestamp, legacy=False):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "state"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13551",
+      "sha": "0362b0e986303858081f607ffad2e8e14be8775e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/7f9e4524d6b23424cf44fbe1bf1f4e70f6bb066e",
+      "sha": "7f9e4524d6b23424cf44fbe1bf1f4e70f6bb066e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "7f9e4524d6b23424cf44fbe1bf1f4e70f6bb066e",
+  "fixed_commit": "0362b0e986303858081f607ffad2e8e14be8775e",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-10-17T17:22:01Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:456620b0e360bb52f734edcacd609879fcbfb3a1c5a0df342147decfb43c25a4"
+}

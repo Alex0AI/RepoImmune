@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13089",
+  "title": "cache.backends.db._cull sometimes fails with 'NoneType' object is not subscriptable",
+  "bug_trigger": "A patch changes django/core/cache/backends/db.py near def _cull(self, db, cursor, now): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_cull_delete_when_store_empty (cache.tests.DBCacheTests), test_cull_delete_when_store_empty (cache.tests.DBCacheWithTimeZoneTests)",
+  "affected_symbols": [
+    {
+      "path": "django/core/cache/backends/db.py",
+      "symbol": "def _cull(self, db, cursor, now):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "cursor.execute(\"DELETE FROM %s \"",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "last_cache_key = cursor.fetchone()",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/cache/tests.py",
+      "name": "test_cull_delete_when_store_empty (cache.tests.DBCacheTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/cache/tests.py",
+      "name": "test_cull_delete_when_store_empty (cache.tests.DBCacheWithTimeZoneTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/cache/backends/db.py"
+    ],
+    "symbols": [
+      "def _cull(self, db, cursor, now):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "cache"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13089",
+      "sha": "f386454d1302b66d0eb331ed0ae9e4811e2f3a15",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/27c09043da52ca1f02605bf28600bfd5ace95ae4",
+      "sha": "27c09043da52ca1f02605bf28600bfd5ace95ae4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "27c09043da52ca1f02605bf28600bfd5ace95ae4",
+  "fixed_commit": "f386454d1302b66d0eb331ed0ae9e4811e2f3a15",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-06-20T07:36:10Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:4b1654ebcc480c3e674b168dd3a815e9975834bd8bacaed60bef531ff4645c93"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-13033",
+  "title": "TimeSeries: misleading exception when required column check fails.",
+  "bug_trigger": "A patch changes astropy/timeseries/core.py near def _check_required_columns(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/timeseries/tests/test_sampled.py::test_required_columns",
+  "affected_symbols": [
+    {
+      "path": "astropy/timeseries/core.py",
+      "symbol": "def _check_required_columns(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "raise ValueError(\"{} object is invalid - expected '{}' \"",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def as_scalar_or_list_str(obj):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-13033",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/timeseries/tests/test_sampled.py",
+      "name": "astropy/timeseries/tests/test_sampled.py::test_required_columns",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/timeseries/core.py"
+    ],
+    "symbols": [
+      "def _check_required_columns(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/13033",
+      "sha": "a3f61e8bee80637220e848bb2dcb2e5a94dfa177",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/298ccb478e6bf092953bca67a3d29dc6c35f6752",
+      "sha": "298ccb478e6bf092953bca67a3d29dc6c35f6752",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "298ccb478e6bf092953bca67a3d29dc6c35f6752",
+  "fixed_commit": "a3f61e8bee80637220e848bb2dcb2e5a94dfa177",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2022-03-31T23:28:27Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:0635dec35a112e64fbb86f9a88dc8457c1de584393a435c976a7a273aa51af82"
+}

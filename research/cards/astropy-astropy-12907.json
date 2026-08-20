@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-12907",
+  "title": "Modeling's `separability_matrix` does not compute separability correctly for nested CompoundModels",
+  "bug_trigger": "A patch changes astropy/modeling/separable.py near def _cstack(left, right): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6], astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9]",
+  "affected_symbols": [
+    {
+      "path": "astropy/modeling/separable.py",
+      "symbol": "def _cstack(left, right):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "cright[-right.shape[0]:, -right.shape[1]:] = 1",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "cright[-right.shape[0]:, -right.shape[1]:] = right",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-12907",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/modeling/tests/test_separable.py",
+      "name": "astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/modeling/tests/test_separable.py",
+      "name": "astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9]",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/modeling/separable.py"
+    ],
+    "symbols": [
+      "def _cstack(left, right):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/12907",
+      "sha": "738068e5d397490e4b1565b026a95301dc1cddec",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+      "sha": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+  "fixed_commit": "738068e5d397490e4b1565b026a95301dc1cddec",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2022-03-03T15:14:54Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:03a283898156039b7928ce71dabe387a3d0a05dcabdc2f955b61154fc66560f1"
+}

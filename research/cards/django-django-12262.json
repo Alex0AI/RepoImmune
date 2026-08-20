@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12262",
+  "title": "Custom template tags raise TemplateSyntaxError when keyword-only arguments with defaults are provided.",
+  "bug_trigger": "A patch changes django/template/library.py near def parse_bits(parser, bits, params, varargs, varkw, defaults, back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 4 fail-to-pass test(s): test_inclusion_tag_errors (template_tests.test_custom.InclusionTagTests), test_inclusion_tags (template_tests.test_custom.InclusionTagTests), test_simple_tag_errors (template_tests.test_custom.SimpleTagTests), test_simple_tags (template_tests.test_custom.SimpleTagTests)",
+  "affected_symbols": [
+    {
+      "path": "django/template/library.py",
+      "symbol": "def parse_bits(parser, bits, params, varargs, varkw, defaults,",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if param not in params and param not in unhandled_kwargs and varkw is None:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if param not in params and param not in kwonly and varkw is None:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/template_tests/templatetags/inclusion.py",
+      "name": "test_inclusion_tag_errors (template_tests.test_custom.InclusionTagTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/template_tests/templatetags/inclusion.py",
+      "name": "test_inclusion_tags (template_tests.test_custom.InclusionTagTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/template_tests/templatetags/inclusion.py",
+      "name": "test_simple_tag_errors (template_tests.test_custom.SimpleTagTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/template_tests/templatetags/inclusion.py",
+      "name": "test_simple_tags (template_tests.test_custom.SimpleTagTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/template/library.py"
+    ],
+    "symbols": [
+      "def parse_bits(parser, bits, params, varargs, varkw, defaults,"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12262",
+      "sha": "e3d546a1d986f83d8698c32e13afd048b65d06eb",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/69331bb851c34f05bc77e9fc24020fe6908b9cd5",
+      "sha": "69331bb851c34f05bc77e9fc24020fe6908b9cd5",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "69331bb851c34f05bc77e9fc24020fe6908b9cd5",
+  "fixed_commit": "e3d546a1d986f83d8698c32e13afd048b65d06eb",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-12-30T13:13:59Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:72efee5870114ce8fa6d60ee6b08d0d358ea626184f7e28ea1e07af9bcd94667"
+}

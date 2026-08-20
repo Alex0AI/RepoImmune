@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12276",
+  "title": "FileInput shouldn't display required attribute when initial data exists.",
+  "bug_trigger": "A patch changes django/forms/widgets.py near def value_from_datadict(self, data, files, name): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_use_required_attribute (forms_tests.widget_tests.test_fileinput.FileInputTest), test_filefield_with_fileinput_required (forms_tests.tests.test_forms.FormsTestCase)",
+  "affected_symbols": [
+    {
+      "path": "django/forms/widgets.py",
+      "symbol": "def value_from_datadict(self, data, files, name):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "def use_required_attribute(self, initial):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def use_required_attribute(self, initial):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/forms_tests/tests/test_forms.py",
+      "name": "test_use_required_attribute (forms_tests.widget_tests.test_fileinput.FileInputTest)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/forms_tests/tests/test_forms.py",
+      "name": "test_filefield_with_fileinput_required (forms_tests.tests.test_forms.FormsTestCase)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/forms/widgets.py"
+    ],
+    "symbols": [
+      "def value_from_datadict(self, data, files, name):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12276",
+      "sha": "ffcf1a8ebfbdc8e3afac84aed88d6ed29a57c72b",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/53d8646f799de7f92ab9defe9dc56c6125448102",
+      "sha": "53d8646f799de7f92ab9defe9dc56c6125448102",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "53d8646f799de7f92ab9defe9dc56c6125448102",
+  "fixed_commit": "ffcf1a8ebfbdc8e3afac84aed88d6ed29a57c72b",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-01-05T08:04:40Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:ab63d378eb82f0a7cc14a7b92349532a02a097a6831ab1289e3ccb568894cb86"
+}

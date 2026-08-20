@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14155",
+  "title": "ResolverMatch.__repr__() doesn't handle functools.partial() nicely.",
+  "bug_trigger": "A patch changes django/urls/resolvers.py near def __getitem__(self, index): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 3 fail-to-pass test(s): test_repr (urlpatterns_reverse.tests.ResolverMatchTests), test_repr_functools_partial (urlpatterns_reverse.tests.ResolverMatchTests), test_resolver_match_on_request (urlpatterns_reverse.tests.ResolverMatchTests)",
+  "affected_symbols": [
+    {
+      "path": "django/urls/resolvers.py",
+      "symbol": "def __getitem__(self, index):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return \"ResolverMatch(func=%s, args=%s, kwargs=%s, url_name=%s, app_names=%s, namespaces=%s, route=%s)\" % (",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if isinstance(self.func, functools.partial):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/urlpatterns_reverse/tests.py",
+      "name": "test_repr (urlpatterns_reverse.tests.ResolverMatchTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/urlpatterns_reverse/tests.py",
+      "name": "test_repr_functools_partial (urlpatterns_reverse.tests.ResolverMatchTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/urlpatterns_reverse/tests.py",
+      "name": "test_resolver_match_on_request (urlpatterns_reverse.tests.ResolverMatchTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/urls/resolvers.py"
+    ],
+    "symbols": [
+      "def __getitem__(self, index):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14155",
+      "sha": "41850eec99366a51f98123f7c51e5bc5a8b2798c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/2f13c476abe4ba787b6cb71131818341911f43cc",
+      "sha": "2f13c476abe4ba787b6cb71131818341911f43cc",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "2f13c476abe4ba787b6cb71131818341911f43cc",
+  "fixed_commit": "41850eec99366a51f98123f7c51e5bc5a8b2798c",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-03-19T15:44:25Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9302c6d1c2394f227640785f9d6c1b75de39773fe7ccc1c327c4b5323e5a8835"
+}

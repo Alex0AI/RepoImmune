@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14365",
+  "title": "ascii.qdp Table format assumes QDP commands are upper case",
+  "bug_trigger": "A patch changes astropy/io/ascii/qdp.py near def _line_type(line, delimiter=None): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/io/ascii/tests/test_qdp.py::test_roundtrip[True]",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/ascii/qdp.py",
+      "symbol": "def _line_type(line, delimiter=None):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "_line_type_re = re.compile(_type_re)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "_line_type_re = re.compile(_type_re, re.IGNORECASE)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14365",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/ascii/tests/test_qdp.py",
+      "name": "astropy/io/ascii/tests/test_qdp.py::test_roundtrip[True]",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/ascii/qdp.py"
+    ],
+    "symbols": [
+      "def _line_type(line, delimiter=None):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14365",
+      "sha": "1577be912ae5570f8867b1ad4eb921172e09f6c0",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/7269fa3e33e8d02485a647da91a5a2a60a06af61",
+      "sha": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "7269fa3e33e8d02485a647da91a5a2a60a06af61",
+  "fixed_commit": "1577be912ae5570f8867b1ad4eb921172e09f6c0",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-02-06T19:20:34Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9e57bed96a316c7fc8869b82517838ff60cbc46ac699380d634c02cf153f9015"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12125",
+  "title": "makemigrations produces incorrect path for inner classes",
+  "bug_trigger": "A patch changes django/db/migrations/serializer.py near def serialize(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_serialize_nested_class (migrations.test_writer.WriterTests), test_serialize_numbers (migrations.test_writer.WriterTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/migrations/serializer.py",
+      "symbol": "def serialize(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return \"%s.%s\" % (module, self.value.__name__), {\"import %s\" % module}",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "return \"%s.%s\" % (module, self.value.__qualname__), {\"import %s\" % module}",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/migrations/test_writer.py",
+      "name": "test_serialize_nested_class (migrations.test_writer.WriterTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/migrations/test_writer.py",
+      "name": "test_serialize_numbers (migrations.test_writer.WriterTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/migrations/serializer.py"
+    ],
+    "symbols": [
+      "def serialize(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "state"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12125",
+      "sha": "29d8198841ea39af44f3bc835d646e642d498475",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/89d41cba392b759732ba9f1db4ff29ed47da6a56",
+      "sha": "89d41cba392b759732ba9f1db4ff29ed47da6a56",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "89d41cba392b759732ba9f1db4ff29ed47da6a56",
+  "fixed_commit": "29d8198841ea39af44f3bc835d646e642d498475",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-11-22T12:55:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:bd1a013f60d8179170799dbcc5fb05ccd65a881c7595b9dc8c3781f2b78812d8"
+}

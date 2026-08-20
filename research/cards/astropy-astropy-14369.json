@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14369",
+  "title": "Incorrect units read from MRT (CDS format) files with astropy.table",
+  "bug_trigger": "A patch changes astropy/units/format/cds.py near def _make_parser(cls): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 3 fail-to-pass test(s): astropy/units/tests/test_format.py::test_cds_grammar[strings4-unit4], astropy/units/tests/test_format.py::test_cds_grammar[strings6-unit6], astropy/units/tests/test_format.py::test_cds_grammar_fail[km/s.Mpc-1]",
+  "affected_symbols": [
+    {
+      "path": "astropy/units/format/cds.py",
+      "symbol": "def _make_parser(cls):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "YACC grammar in the `unity library",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "YACC grammar in the `unity library <https://purl.org/nxg/dist/unity/>`_.",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14369",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/units/tests/test_format.py",
+      "name": "astropy/units/tests/test_format.py::test_cds_grammar[strings4-unit4]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_format.py",
+      "name": "astropy/units/tests/test_format.py::test_cds_grammar[strings6-unit6]",
+      "framework": "pytest"
+    },
+    {
+      "path": "astropy/units/tests/test_format.py",
+      "name": "astropy/units/tests/test_format.py::test_cds_grammar_fail[km/s.Mpc-1]",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/units/format/cds.py"
+    ],
+    "symbols": [
+      "def _make_parser(cls):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14369",
+      "sha": "6fda4d5dc40e94e8944c2d23ba5a7004be330479",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/fa4e8d1cd279acf9b24560813c8652494ccd5922",
+      "sha": "fa4e8d1cd279acf9b24560813c8652494ccd5922",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "fa4e8d1cd279acf9b24560813c8652494ccd5922",
+  "fixed_commit": "6fda4d5dc40e94e8944c2d23ba5a7004be330479",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-02-06T21:56:51Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9412d6eb2d353311bc6cd4a9061f16e349a3a0d2992689c18238bb7e697131c0"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11964",
+  "title": "The value of a TextChoices/IntegerChoices field has a differing type",
+  "bug_trigger": "A patch changes django/db/models/enums.py near def values(cls): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_str (model_enums.tests.ChoicesTests), test_textchoices (model_enums.tests.ChoicesTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/enums.py",
+      "symbol": "def values(cls):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "pass",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def __str__(self):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/model_enums/tests.py",
+      "name": "test_str (model_enums.tests.ChoicesTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/model_enums/tests.py",
+      "name": "test_textchoices (model_enums.tests.ChoicesTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/enums.py"
+    ],
+    "symbols": [
+      "def values(cls):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11964",
+      "sha": "dbcd7b064e7278614f29fc45468d461e263d4da7",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/fc2b1cc926e34041953738e58fa6ad3053059b22",
+      "sha": "fc2b1cc926e34041953738e58fa6ad3053059b22",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "fc2b1cc926e34041953738e58fa6ad3053059b22",
+  "fixed_commit": "dbcd7b064e7278614f29fc45468d461e263d4da7",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-10-23T14:16:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:a359b0d6bf992af26c4505a336f029225b38e33d12e2183b3eacc97205da3448"
+}

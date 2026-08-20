@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14140",
+  "title": "Combining Q() objects with boolean expressions crashes.",
+  "bug_trigger": "A patch changes django/db/models/query_utils.py near def deconstruct(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 4 fail-to-pass test(s): test_deconstruct (queries.test_q.QTests), test_deconstruct_boolean_expression (queries.test_q.QTests), test_deconstruct_negated (queries.test_q.QTests), test_boolean_expression_combined_with_empty_Q (expressions.tests.BasicExpressionsTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/query_utils.py",
+      "symbol": "def deconstruct(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "args, kwargs = (), {}",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "args = tuple(self.children)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_deconstruct (queries.test_q.QTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_deconstruct_boolean_expression (queries.test_q.QTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_deconstruct_negated (queries.test_q.QTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_boolean_expression_combined_with_empty_Q (expressions.tests.BasicExpressionsTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/query_utils.py"
+    ],
+    "symbols": [
+      "def deconstruct(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14140",
+      "sha": "00b0786de533dbb3f6208d8d5eaddbf765b4e5b8",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/45814af6197cfd8f4dc72ee43b90ecde305a1d5a",
+      "sha": "45814af6197cfd8f4dc72ee43b90ecde305a1d5a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "45814af6197cfd8f4dc72ee43b90ecde305a1d5a",
+  "fixed_commit": "00b0786de533dbb3f6208d8d5eaddbf765b4e5b8",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-03-17T11:37:55Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:923e0e73872233af8bcd950053bfd8f8c6927953a7e9a864354c4c529097b9f8"
+}

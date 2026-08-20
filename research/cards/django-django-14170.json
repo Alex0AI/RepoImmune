@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14170",
+  "title": "Query optimization in YearLookup breaks filtering by \"__iso_year\"",
+  "bug_trigger": "A patch changes django/db/backends/base/operations.py near def adapt_ipaddressfield_value(self, value): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_extract_iso_year_func_boundaries (db_functions.datetime.test_extract_trunc.DateFunctionTests), test_extract_iso_year_func_boundaries (db_functions.datetime.test_extract_trunc.DateFunctionWithTimeZoneTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/backends/base/operations.py",
+      "symbol": "def adapt_ipaddressfield_value(self, value):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "def year_lookup_bounds_for_date_field(self, value):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def year_lookup_bounds_for_date_field(self, value, iso_year=False):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/db_functions/datetime/test_extract_trunc.py",
+      "name": "test_extract_iso_year_func_boundaries (db_functions.datetime.test_extract_trunc.DateFunctionTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/db_functions/datetime/test_extract_trunc.py",
+      "name": "test_extract_iso_year_func_boundaries (db_functions.datetime.test_extract_trunc.DateFunctionWithTimeZoneTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/backends/base/operations.py"
+    ],
+    "symbols": [
+      "def adapt_ipaddressfield_value(self, value):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14170",
+      "sha": "3a185cee2af919cd0e897d884eaafe421cd3ba48",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/6efc35b4fe3009666e56a60af0675d7d532bf4ff",
+      "sha": "6efc35b4fe3009666e56a60af0675d7d532bf4ff",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "6efc35b4fe3009666e56a60af0675d7d532bf4ff",
+  "fixed_commit": "3a185cee2af919cd0e897d884eaafe421cd3ba48",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-03-23T08:53:41Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:5b1db4dae3b0a646ca7379c7c4035b85355a9f5768d68e4183602358c92780f9"
+}

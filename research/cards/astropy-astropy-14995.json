@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14995",
+  "title": "In v5.3, NDDataRef mask propagation fails when one of the operand does not have a mask",
+  "bug_trigger": "A patch changes astropy/nddata/mixins/ndarithmetic.py near def _arithmetic_mask(self, operation, operand, handle_mask, axis=None, **kwds): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/nddata/mixins/tests/test_ndarithmetic.py::test_nddata_bitmask_arithmetic",
+  "affected_symbols": [
+    {
+      "path": "astropy/nddata/mixins/ndarithmetic.py",
+      "symbol": "def _arithmetic_mask(self, operation, operand, handle_mask, axis=None, **kwds):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "elif operand is None:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "elif operand.mask is None:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14995",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/nddata/mixins/tests/test_ndarithmetic.py",
+      "name": "astropy/nddata/mixins/tests/test_ndarithmetic.py::test_nddata_bitmask_arithmetic",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/nddata/mixins/ndarithmetic.py"
+    ],
+    "symbols": [
+      "def _arithmetic_mask(self, operation, operand, handle_mask, axis=None, **kwds):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14995",
+      "sha": "c0702dae400e4a3445afcb62e65e298b9d2f7465",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/b16c7d12ccbc7b2d20364b89fb44285bcbfede54",
+      "sha": "b16c7d12ccbc7b2d20364b89fb44285bcbfede54",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "b16c7d12ccbc7b2d20364b89fb44285bcbfede54",
+  "fixed_commit": "c0702dae400e4a3445afcb62e65e298b9d2f7465",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-06-27T19:48:18Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:93d2116ff7bc9650fdc608676253946b2f97b66c2ea65d0d2af324569dbd267c"
+}

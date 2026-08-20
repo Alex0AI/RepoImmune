@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10880",
+  "title": "Query syntax error with condition and distinct combination",
+  "bug_trigger": "A patch changes django/db/models/aggregates.py near def get_group_by_cols(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_count_distinct_expression (aggregation.tests.AggregateTestCase)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/aggregates.py",
+      "symbol": "def get_group_by_cols(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "extra_context['distinct'] = 'DISTINCT' if self.distinct else ''",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "extra_context['distinct'] = 'DISTINCT ' if self.distinct else ''",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-10880",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/aggregation/tests.py",
+      "name": "test_count_distinct_expression (aggregation.tests.AggregateTestCase)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/aggregates.py"
+    ],
+    "symbols": [
+      "def get_group_by_cols(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/10880",
+      "sha": "65858119d23e37872505a4476e7141c33981fb50",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/838e432e3e5519c5383d12018e6c78f8ec7833c1",
+      "sha": "838e432e3e5519c5383d12018e6c78f8ec7833c1",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "838e432e3e5519c5383d12018e6c78f8ec7833c1",
+  "fixed_commit": "65858119d23e37872505a4476e7141c33981fb50",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-01-21T00:22:36Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:24df527c8608fec3db47b68f30f892adc0826fd69d6048d2cef08782901e47f9"
+}

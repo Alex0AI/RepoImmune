@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14598",
+  "title": "Inconsistency in double single-quote ('') management in FITS Card",
+  "bug_trigger": "A patch changes astropy/io/fits/card.py near class Card(_Verify): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_long_string_value_with_quotes",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/fits/card.py",
+      "symbol": "class Card(_Verify):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "_strg_comment_RE = re.compile(f\"({_strg})? *{_comm_field}?\")",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "_strg_comment_RE = re.compile(f\"({_strg})? *{_comm_field}?$\")",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14598",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/fits/tests/test_header.py",
+      "name": "astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_long_string_value_with_quotes",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/fits/card.py"
+    ],
+    "symbols": [
+      "class Card(_Verify):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14598",
+      "sha": "aed2f00eb3b4b4a104f54a0d5ed1dc1e29a24de7",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/80c3854a5f4f4a6ab86c03d9db7854767fcd83c1",
+      "sha": "80c3854a5f4f4a6ab86c03d9db7854767fcd83c1",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "80c3854a5f4f4a6ab86c03d9db7854767fcd83c1",
+  "fixed_commit": "aed2f00eb3b4b4a104f54a0d5ed1dc1e29a24de7",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-03-29T10:34:49Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:4afceb8737cf677761e36691417c1bd1a55c982911edefd9fed010e3c7150499"
+}

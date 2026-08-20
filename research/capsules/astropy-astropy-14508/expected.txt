@@ -1,0 +1,1 @@
+"""Format a floating number to make sure it is at most 20 characters."""

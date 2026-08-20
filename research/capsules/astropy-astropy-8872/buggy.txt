@@ -1,0 +1,1 @@
+except that any input that cannot represent float (integer and bool)

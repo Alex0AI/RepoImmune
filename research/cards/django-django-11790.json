@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11790",
+  "title": "AuthenticationForm's username field doesn't set maxlength HTML attribute.",
+  "bug_trigger": "A patch changes django/contrib/auth/forms.py near def __init__(self, request=None, *args, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_username_field_max_length_defaults_to_254 (auth_tests.test_forms.AuthenticationFormTest), test_username_field_max_length_matches_user_model (auth_tests.test_forms.AuthenticationFormTest)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/auth/forms.py",
+      "symbol": "def __init__(self, request=None, *args, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "self.fields['username'].max_length = self.username_field.max_length or 254",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "username_max_length = self.username_field.max_length or 254",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/auth_tests/test_forms.py",
+      "name": "test_username_field_max_length_defaults_to_254 (auth_tests.test_forms.AuthenticationFormTest)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/auth_tests/test_forms.py",
+      "name": "test_username_field_max_length_matches_user_model (auth_tests.test_forms.AuthenticationFormTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/auth/forms.py"
+    ],
+    "symbols": [
+      "def __init__(self, request=None, *args, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11790",
+      "sha": "6c9778a58e4f680db180d4cc9dc5639d2ec1b40c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/b1d6b35e146aea83b171c1b921178bbaae2795ed",
+      "sha": "b1d6b35e146aea83b171c1b921178bbaae2795ed",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "b1d6b35e146aea83b171c1b921178bbaae2795ed",
+  "fixed_commit": "6c9778a58e4f680db180d4cc9dc5639d2ec1b40c",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-09-17T14:33:44Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:fc4ac333ef26d6ca4f7d3f52782784ec4e696218342a27ac0e0bf0111a21e156"
+}

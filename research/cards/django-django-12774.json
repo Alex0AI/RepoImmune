@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12774",
+  "title": "Allow QuerySet.in_bulk() for fields with total UniqueConstraints.",
+  "bug_trigger": "A patch changes django/db/models/query.py near def in_bulk(self, id_list=None, *, field_name='pk'): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_in_bulk_meta_constraint (lookup.tests.LookupTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/query.py",
+      "symbol": "def in_bulk(self, id_list=None, *, field_name='pk'):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if field_name != 'pk' and not self.model._meta.get_field(field_name).unique:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "opts = self.model._meta",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/lookup/models.py",
+      "name": "test_in_bulk_meta_constraint (lookup.tests.LookupTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/query.py"
+    ],
+    "symbols": [
+      "def in_bulk(self, id_list=None, *, field_name='pk'):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12774",
+      "sha": "447980e72ac01da1594dd3373a03ba40b7ee6f80",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "sha": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "67f9d076cfc1858b94f9ed6d1a5ce2327dcc8d0d",
+  "fixed_commit": "447980e72ac01da1594dd3373a03ba40b7ee6f80",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-04-22T11:02:30Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:46c48c96c3c2f86d93639ad1c741b5502f71fb7024ecc462693c15484ab7b448"
+}

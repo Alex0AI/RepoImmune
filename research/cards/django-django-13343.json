@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13343",
+  "title": "FileField with a callable storage does not deconstruct properly",
+  "bug_trigger": "A patch changes django/db/models/fields/files.py near def deconstruct(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_deconstruction (file_storage.tests.FieldCallableFileStorageTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/fields/files.py",
+      "symbol": "def deconstruct(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "kwargs['storage'] = self.storage",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "# Hold a reference to the callable for deconstruct().",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/file_storage/tests.py",
+      "name": "test_deconstruction (file_storage.tests.FieldCallableFileStorageTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/fields/files.py"
+    ],
+    "symbols": [
+      "def deconstruct(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "state"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13343",
+      "sha": "2d42e23b6d8fd76f93a96b2310b2c9dfd441d009",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/ece18207cbb64dd89014e279ac636a6c9829828e",
+      "sha": "ece18207cbb64dd89014e279ac636a6c9829828e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "ece18207cbb64dd89014e279ac636a6c9829828e",
+  "fixed_commit": "2d42e23b6d8fd76f93a96b2310b2c9dfd441d009",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-08-24T19:29:12Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:41a8d3bca81b061018f4b8f9536728bae4b8bef87531381a9357e196e93c4c4d"
+}

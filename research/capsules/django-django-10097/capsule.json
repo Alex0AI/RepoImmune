@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10097",
+  "source": "https://github.com/django/django/pull/10097",
+  "environment": {
+    "python": ">=3.10",
+    "dependencies": []
+  },
+  "runs": [
+    {
+      "name": "historical line differs from fixed evidence",
+      "args": [
+        "test_case.py",
+        "buggy.txt",
+        "expected.txt"
+      ],
+      "expected_exit": 1
+    },
+    {
+      "name": "fixed line matches evidence",
+      "args": [
+        "test_case.py",
+        "fixed.txt",
+        "expected.txt"
+      ],
+      "expected_exit": 0
+    }
+  ],
+  "provenance": {
+    "classification": "heuristic",
+    "scope": "structural patch replay only; not upstream behavior execution"
+  }
+}

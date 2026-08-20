@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13344",
+  "title": "Coroutine passed to the first middleware's process_response() instead of HttpResponse.",
+  "bug_trigger": "A patch changes django/contrib/sessions/middleware.py near class SessionMiddleware(MiddlewareMixin): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_coroutine (deprecation.test_middleware_mixin.MiddlewareMixinTests), test_deprecation (deprecation.test_middleware_mixin.MiddlewareMixinTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/sessions/middleware.py",
+      "symbol": "class SessionMiddleware(MiddlewareMixin):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "self._get_response_none_deprecation(get_response)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "super().__init__(get_response)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/cache/tests.py",
+      "name": "test_coroutine (deprecation.test_middleware_mixin.MiddlewareMixinTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/cache/tests.py",
+      "name": "test_deprecation (deprecation.test_middleware_mixin.MiddlewareMixinTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/sessions/middleware.py"
+    ],
+    "symbols": [
+      "class SessionMiddleware(MiddlewareMixin):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "async"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13344",
+      "sha": "225261b70136fa90e63b6cf4ea10341e793d7341",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e39e727ded673e74016b5d3658d23cbe20234d11",
+      "sha": "e39e727ded673e74016b5d3658d23cbe20234d11",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e39e727ded673e74016b5d3658d23cbe20234d11",
+  "fixed_commit": "225261b70136fa90e63b6cf4ea10341e793d7341",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-08-24T20:50:35Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:00c6dadd3af68b85acc7f8f7436b73246e6cf6cc54b6e5c9f80f6a36412e4dd6"
+}

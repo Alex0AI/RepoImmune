@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12193",
+  "title": "SplitArrayField with BooleanField always has widgets checked after the first True value.",
+  "bug_trigger": "A patch changes django/forms/widgets.py near def format_value(self, value): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_get_context_does_not_mutate_attrs (forms_tests.widget_tests.test_checkboxinput.CheckboxInputTest)",
+  "affected_symbols": [
+    {
+      "path": "django/forms/widgets.py",
+      "symbol": "def format_value(self, value):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if attrs is None:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "attrs = {**(attrs or {}), 'checked': True}",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/forms_tests/widget_tests/test_checkboxinput.py",
+      "name": "test_get_context_does_not_mutate_attrs (forms_tests.widget_tests.test_checkboxinput.CheckboxInputTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/forms/widgets.py"
+    ],
+    "symbols": [
+      "def format_value(self, value):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12193",
+      "sha": "02eff7ef60466da108b1a33f1e4dc01eec45c99d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/3fb7c12158a2402f0f80824f6778112071235803",
+      "sha": "3fb7c12158a2402f0f80824f6778112071235803",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "3fb7c12158a2402f0f80824f6778112071235803",
+  "fixed_commit": "02eff7ef60466da108b1a33f1e4dc01eec45c99d",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-12-08T01:38:25Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:f362f04d0d6e4d26abae5a495bb1d9a06c5662ac12220e02bcd0e6a296723108"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13121",
+  "title": "durations-only expressions doesn't work on SQLite and MySQL",
+  "bug_trigger": "A patch changes django/db/models/expressions.py near class Combinable: back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_duration_expressions (expressions.tests.FTimeDeltaTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/expressions.py",
+      "symbol": "class Combinable:",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if isinstance(other, datetime.timedelta):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "output_field = (",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_duration_expressions (expressions.tests.FTimeDeltaTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/expressions.py"
+    ],
+    "symbols": [
+      "class Combinable:"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "cache"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13121",
+      "sha": "dd5aa8cb5ffc0a89c4b9b8dee45c1c919d203489",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/ec5aa2161d8015a3fe57dcbbfe14200cd18f0a16",
+      "sha": "ec5aa2161d8015a3fe57dcbbfe14200cd18f0a16",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "ec5aa2161d8015a3fe57dcbbfe14200cd18f0a16",
+  "fixed_commit": "dd5aa8cb5ffc0a89c4b9b8dee45c1c919d203489",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-06-29T09:04:15Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:825b3753dd848647bf7601f79d4c50b6ffd7cdb77ffb7f079d002c645ac04f5e"
+}

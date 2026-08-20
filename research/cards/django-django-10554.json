@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10554",
+  "title": "Union queryset with ordering breaks on ordering with derived querysets",
+  "bug_trigger": "A patch changes django/db/models/sql/compiler.py near def get_order_by(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_union_with_values_list_and_order (queries.test_qs_combinators.QuerySetSetOperationTests), test_union_with_values_list_on_annotated_and_unannotated (queries.test_qs_combinators.QuerySetSetOperationTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/compiler.py",
+      "symbol": "def get_order_by(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "raise DatabaseError('ORDER BY term does not match any column in the result set.')",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if col_alias:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-10554",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/queries/test_qs_combinators.py",
+      "name": "test_union_with_values_list_and_order (queries.test_qs_combinators.QuerySetSetOperationTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/queries/test_qs_combinators.py",
+      "name": "test_union_with_values_list_on_annotated_and_unannotated (queries.test_qs_combinators.QuerySetSetOperationTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/compiler.py"
+    ],
+    "symbols": [
+      "def get_order_by(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "cache"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/10554",
+      "sha": "2cbd3967e0a51eab993df89679046d25ec78baec",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/14d026cccb144c6877294ba4cd4e03ebf0842498",
+      "sha": "14d026cccb144c6877294ba4cd4e03ebf0842498",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "14d026cccb144c6877294ba4cd4e03ebf0842498",
+  "fixed_commit": "2cbd3967e0a51eab993df89679046d25ec78baec",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2018-10-24T14:24:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:afa3ee0c5f4c517050ade21bccb0a237474c94e6fa85c4998f128b09f778001f"
+}

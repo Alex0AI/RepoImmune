@@ -1,0 +1,59 @@
+{
+  "generated_from": "research snapshot and deterministic mutations; no LLM judging",
+  "candidate_count": 500,
+  "behavior_card_count": 120,
+  "repository_count": 12,
+  "capsule_count": 30,
+  "experiments": {
+    "mining_precision": {
+      "classification": "inconclusive",
+      "n": 0,
+      "reason": "No independent manual labeling round was completed; SWE-bench Verified membership is not reused as a precision label."
+    },
+    "evidence_coverage": {
+      "classification": "externally_reported",
+      "n": 120,
+      "complete_rate": 1.0
+    },
+    "retrieval": {
+      "classification": "heuristic",
+      "n": 120,
+      "recall_at_5": 1.0,
+      "mrr": 1.0
+    },
+    "known_reversion_detection": {
+      "classification": "verified",
+      "n": 120,
+      "rate": 1.0
+    },
+    "normal_refactor_false_positive": {
+      "classification": "verified",
+      "n": 120,
+      "rate": 0.075
+    },
+    "test_assertion_deletion_detection": {
+      "classification": "verified",
+      "n": 120,
+      "rate": 1.0
+    },
+    "ablation": {
+      "classification": "heuristic",
+      "n": 120,
+      "rule_only": 1.0,
+      "text_only_recall_at_5": 1.0,
+      "ast_only_reversion": 1.0,
+      "hybrid_reversion_or_test": 1.0
+    },
+    "agent_ab": {
+      "classification": "inconclusive",
+      "n": 0,
+      "reason": "Not run: no claim is made without equal-task/model/config/budget trials."
+    }
+  },
+  "limitations": [
+    "Mutation results measure deliberate exact historical reversions, not arbitrary future semantic regressions.",
+    "Generated card invariants are conservative and externally reported, not human semantic annotations.",
+    "Retrieval queries reuse title terms and therefore do not estimate natural user-query performance.",
+    "Structural capsules are not full upstream behavioral replays."
+  ]
+}

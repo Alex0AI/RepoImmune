@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13590",
+  "title": "Upgrading 2.2>3.0 causes named tuples used as arguments to __range to error.",
+  "bug_trigger": "A patch changes django/db/models/sql/query.py near def resolve_lookup_value(self, value, can_reuse, allow_joins): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_range_lookup_namedtuple (expressions.tests.IterableLookupInnerExpressionsTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/query.py",
+      "symbol": "def resolve_lookup_value(self, value, can_reuse, allow_joins):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return type(value)(",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "values = (",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_range_lookup_namedtuple (expressions.tests.IterableLookupInnerExpressionsTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/query.py"
+    ],
+    "symbols": [
+      "def resolve_lookup_value(self, value, can_reuse, allow_joins):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13590",
+      "sha": "a56586eafeb6d1212bc291d1a2e7d33c87edbc33",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/755dbf39fcdc491fe9b588358303e259c7750be4",
+      "sha": "755dbf39fcdc491fe9b588358303e259c7750be4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "755dbf39fcdc491fe9b588358303e259c7750be4",
+  "fixed_commit": "a56586eafeb6d1212bc291d1a2e7d33c87edbc33",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-10-23T09:34:55Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:382f042f9b741d9275229cf40a20df3ce3d2190bed0ee3ac1e35fb415f0c165b"
+}

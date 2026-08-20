@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13741",
+  "title": "Set disabled prop on ReadOnlyPasswordHashField",
+  "bug_trigger": "A patch changes django/contrib/auth/forms.py near class ReadOnlyPasswordHashField(forms.Field): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_readonly_field_has_changed (auth_tests.test_forms.ReadOnlyPasswordHashTest)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/auth/forms.py",
+      "symbol": "class ReadOnlyPasswordHashField(forms.Field):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "def bound_data(self, data, initial):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "kwargs.setdefault('disabled', True)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/auth_tests/test_forms.py",
+      "name": "test_readonly_field_has_changed (auth_tests.test_forms.ReadOnlyPasswordHashTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/auth/forms.py"
+    ],
+    "symbols": [
+      "class ReadOnlyPasswordHashField(forms.Field):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13741",
+      "sha": "d8dfff2ab0edf7a1ca5255eccf45c447b2f9d57e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/d746f28949c009251a8741ba03d156964050717f",
+      "sha": "d746f28949c009251a8741ba03d156964050717f",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "d746f28949c009251a8741ba03d156964050717f",
+  "fixed_commit": "d8dfff2ab0edf7a1ca5255eccf45c447b2f9d57e",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-12-02T10:52:52Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:c157fba192959ff02bb3135e1081dec417f506da30bb4cadc45b34287a5d8676"
+}

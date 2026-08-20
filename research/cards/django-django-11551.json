@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11551",
+  "title": "admin.E108 is raised on fields accessible only via instance.",
+  "bug_trigger": "A patch changes django/contrib/admin/checks.py near def _check_list_display_item(self, obj, item, label): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_valid_field_accessible_via_instance (modeladmin.test_checks.ListDisplayTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admin/checks.py",
+      "symbol": "def _check_list_display_item(self, obj, item, label):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "elif hasattr(obj.model, item):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "try:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/modeladmin/test_checks.py",
+      "name": "test_valid_field_accessible_via_instance (modeladmin.test_checks.ListDisplayTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admin/checks.py"
+    ],
+    "symbols": [
+      "def _check_list_display_item(self, obj, item, label):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11551",
+      "sha": "ed668796f6c7e59ca3f35e9d87d940e043a3eff3",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/7991111af12056ec9a856f35935d273526338c1f",
+      "sha": "7991111af12056ec9a856f35935d273526338c1f",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "7991111af12056ec9a856f35935d273526338c1f",
+  "fixed_commit": "ed668796f6c7e59ca3f35e9d87d940e043a3eff3",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-07-09T22:28:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:294bd5a410a1b10c1ed77a39202a924c37e16e4e7e33a6aa3f3d7d901d3ee213"
+}

@@ -1,0 +1,1 @@
+for inline_class in self.inlines:

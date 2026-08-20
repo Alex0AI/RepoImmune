@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13033",
+  "title": "Self referencing foreign key doesn't correctly order by a relation \"_id\" field.",
+  "bug_trigger": "A patch changes django/db/models/sql/compiler.py near def find_ordering_name(self, name, opts, alias=None, default_order='ASC', back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_order_by_self_referential_fk (ordering.tests.OrderingTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/compiler.py",
+      "symbol": "def find_ordering_name(self, name, opts, alias=None, default_order='ASC',",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if field.is_relation and opts.ordering and getattr(field, 'attname', None) != name and name != 'pk':",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if (",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/ordering/models.py",
+      "name": "test_order_by_self_referential_fk (ordering.tests.OrderingTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/compiler.py"
+    ],
+    "symbols": [
+      "def find_ordering_name(self, name, opts, alias=None, default_order='ASC',"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13033",
+      "sha": "037a624120b676858be4b93c4d0adda45916fd2a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e",
+      "sha": "a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e",
+  "fixed_commit": "037a624120b676858be4b93c4d0adda45916fd2a",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-06-07T14:52:19Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:4373ee2704b0402ca16eb1e84e7f50ae486446c371ea587dad472c68b035757f"
+}

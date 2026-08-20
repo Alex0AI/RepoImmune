@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-8707",
+  "title": "Header.fromstring does not accept Python 3 bytes",
+  "bug_trigger": "A patch changes astropy/io/fits/header.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_card_from_bytes",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/fits/header.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "__doctest_skip__ = ['Header', 'Header.*']",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "__doctest_skip__ = ['Header', 'Header.comments', 'Header.fromtextfile',",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-8707",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/fits/tests/test_header.py",
+      "name": "astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_card_from_bytes",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/fits/header.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/8707",
+      "sha": "3f54bc2d7ce4d3b6715d809ea4f9c8972fa03fc8",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "sha": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+  "fixed_commit": "3f54bc2d7ce4d3b6715d809ea4f9c8972fa03fc8",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2019-05-15T13:21:19Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:3e520020197549c6ccda7805294188072048fd152c8615b51f3d46c721b55a69"
+}

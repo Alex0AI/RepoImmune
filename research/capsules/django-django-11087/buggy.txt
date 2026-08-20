@@ -1,0 +1,1 @@
+if (signals.pre_delete.has_listeners(model) or

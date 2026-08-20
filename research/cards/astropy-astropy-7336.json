@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-7336",
+  "title": "units.quantity_input decorator fails for constructors with type hinted return value -> None",
+  "bug_trigger": "A patch changes astropy/units/decorators.py near def wrapper(*func_args, **func_kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/units/tests/test_quantity_annotations.py::test_return_annotation_none",
+  "affected_symbols": [
+    {
+      "path": "astropy/units/decorators.py",
+      "symbol": "def wrapper(*func_args, **func_kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if wrapped_signature.return_annotation is not inspect.Signature.empty:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if wrapped_signature.return_annotation not in (inspect.Signature.empty, None):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-7336",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/units/tests/test_quantity_annotations.py",
+      "name": "astropy/units/tests/test_quantity_annotations.py::test_return_annotation_none",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/units/decorators.py"
+    ],
+    "symbols": [
+      "def wrapper(*func_args, **func_kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/7336",
+      "sha": "7b54fab2482e00603c12075a4a4fc70319dc16c6",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/732d89c2940156bdc0e200bb36dc38b5e424bcba",
+      "sha": "732d89c2940156bdc0e200bb36dc38b5e424bcba",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "732d89c2940156bdc0e200bb36dc38b5e424bcba",
+  "fixed_commit": "7b54fab2482e00603c12075a4a4fc70319dc16c6",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2018-03-28T15:31:32Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:afb9fbf960d6e8ceb87a0cb8bf9755a49b2465d0f850a1b8f3ba9100812294fd"
+}

@@ -1,0 +1,1 @@
+except that any integer and (non-Quantity) object inputs are converted

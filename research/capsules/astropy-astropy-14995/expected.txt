@@ -1,0 +1,1 @@
+elif operand.mask is None:

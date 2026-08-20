@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12858",
+  "title": "models.E015 is raised when ordering uses lookups that are not transforms.",
+  "bug_trigger": "A patch changes django/db/models/base.py near def _check_ordering(cls): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_ordering_pointing_to_lookup_not_transform (invalid_models_tests.test_models.OtherModelTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/base.py",
+      "symbol": "def _check_ordering(cls):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if fld is None or fld.get_transform(part) is None:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if fld is None or (",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/invalid_models_tests/test_models.py",
+      "name": "test_ordering_pointing_to_lookup_not_transform (invalid_models_tests.test_models.OtherModelTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/base.py"
+    ],
+    "symbols": [
+      "def _check_ordering(cls):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12858",
+      "sha": "b73e66e75802f10cc34d4880714554cea54dbf49",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/f2051eb8a7febdaaa43bd33bf5a6108c5f428e59",
+      "sha": "f2051eb8a7febdaaa43bd33bf5a6108c5f428e59",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "f2051eb8a7febdaaa43bd33bf5a6108c5f428e59",
+  "fixed_commit": "b73e66e75802f10cc34d4880714554cea54dbf49",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-05-05T04:49:02Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:177b3fd721fcd7e18add869df14b38d2e77f329142e2b21f2d3a6c90ab61f230"
+}

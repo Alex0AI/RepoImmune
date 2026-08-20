@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13964",
+  "title": "Saving parent object after setting on child leads to data loss for parents with non-numeric primary key.",
+  "bug_trigger": "A patch changes django/db/models/base.py near def _prepare_related_fields_for_save(self, operation_name): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/base.py",
+      "symbol": "def _prepare_related_fields_for_save(self, operation_name):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "elif getattr(self, field.attname) is None:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "elif getattr(self, field.attname) in field.empty_values:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/many_to_one/models.py",
+      "name": "test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/base.py"
+    ],
+    "symbols": [
+      "def _prepare_related_fields_for_save(self, operation_name):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13964",
+      "sha": "7cba92ec55a5d05450261f375830619870ca84fa",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/f39634ff229887bf7790c069d0c411b38494ca38",
+      "sha": "f39634ff229887bf7790c069d0c411b38494ca38",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "f39634ff229887bf7790c069d0c411b38494ca38",
+  "fixed_commit": "7cba92ec55a5d05450261f375830619870ca84fa",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-02-02T17:07:43Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:62042de8d6a492bedc7a9fc76bd108ff1fa6789907b3fb0f335d494d7459bfa9"
+}

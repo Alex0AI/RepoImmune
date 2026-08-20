@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12419",
+  "title": "Add secure default SECURE_REFERRER_POLICY / Referrer-policy header",
+  "bug_trigger": "A patch changes django/conf/global_settings.py near def gettext_noop(s): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_middleware_headers (project_template.test_settings.TestStartProjectSettings)",
+  "affected_symbols": [
+    {
+      "path": "django/conf/global_settings.py",
+      "symbol": "def gettext_noop(s):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "SECURE_REFERRER_POLICY = None",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "SECURE_REFERRER_POLICY = 'same-origin'",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/project_template/test_settings.py",
+      "name": "test_middleware_headers (project_template.test_settings.TestStartProjectSettings)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/conf/global_settings.py"
+    ],
+    "symbols": [
+      "def gettext_noop(s):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12419",
+      "sha": "72b97a5b1e22f5d464045be2e33f0436fa8061d3",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/7fa1a93c6c8109010a6ff3f604fda83b604e0e97",
+      "sha": "7fa1a93c6c8109010a6ff3f604fda83b604e0e97",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "7fa1a93c6c8109010a6ff3f604fda83b604e0e97",
+  "fixed_commit": "72b97a5b1e22f5d464045be2e33f0436fa8061d3",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-02-05T10:02:56Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:83d418787dfe780dfe4237c1e8fcdaf0061284e4f64a4f768db9c4caced65506"
+}

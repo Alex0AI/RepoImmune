@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12406",
+  "title": "ModelForm RadioSelect widget for foreign keys should not present a blank option if blank=False on the model",
+  "bug_trigger": "A patch changes django/forms/models.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 3 fail-to-pass test(s): test_non_blank_foreign_key_with_radio (model_forms.tests.ModelFormBaseTest), test_choices_radio_blank (model_forms.test_modelchoicefield.ModelChoiceFieldTests), test_clean_model_instance (model_forms.test_modelchoicefield.ModelChoiceFieldTests)",
+  "affected_symbols": [
+    {
+      "path": "django/forms/models.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "HiddenInput, MultipleHiddenInput, SelectMultiple,",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "HiddenInput, MultipleHiddenInput, RadioSelect, SelectMultiple,",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/model_forms/models.py",
+      "name": "test_non_blank_foreign_key_with_radio (model_forms.tests.ModelFormBaseTest)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/model_forms/models.py",
+      "name": "test_choices_radio_blank (model_forms.test_modelchoicefield.ModelChoiceFieldTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/model_forms/models.py",
+      "name": "test_clean_model_instance (model_forms.test_modelchoicefield.ModelChoiceFieldTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/forms/models.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12406",
+      "sha": "da79ee472d803963dc3ea81ee67767dc06068aac",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/335c9c94acf263901fb023404408880245b0c4b4",
+      "sha": "335c9c94acf263901fb023404408880245b0c4b4",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "335c9c94acf263901fb023404408880245b0c4b4",
+  "fixed_commit": "da79ee472d803963dc3ea81ee67767dc06068aac",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-02-02T16:34:05Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:025e3fb011c5cf31ee4f3ba9a6681728dbee6f9389a62ed5b21567c3daa12881"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14309",
+  "title": "IndexError: tuple index out of range in identify_format (io.registry)",
+  "bug_trigger": "A patch changes astropy/io/fits/connect.py near def is_fits(origin, filepath, fileobj, *args, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/io/fits/tests/test_connect.py::test_is_fits_gh_14305",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/fits/connect.py",
+      "symbol": "def is_fits(origin, filepath, fileobj, *args, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if filepath.lower().endswith(",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "return filepath.lower().endswith(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14309",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/fits/tests/test_connect.py",
+      "name": "astropy/io/fits/tests/test_connect.py::test_is_fits_gh_14305",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/fits/connect.py"
+    ],
+    "symbols": [
+      "def is_fits(origin, filepath, fileobj, *args, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14309",
+      "sha": "1aed4548ec81a698f5faf0d2edc8e3fcc107c768",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/cdb66059a2feb44ee49021874605ba90801f9986",
+      "sha": "cdb66059a2feb44ee49021874605ba90801f9986",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "cdb66059a2feb44ee49021874605ba90801f9986",
+  "fixed_commit": "1aed4548ec81a698f5faf0d2edc8e3fcc107c768",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2023-01-23T22:34:01Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:c721fbc805496eff22bdbe7505286f86be56c1c76db42d7f9b4007b9150a576d"
+}

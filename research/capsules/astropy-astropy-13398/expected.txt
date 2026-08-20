@@ -1,0 +1,1 @@
+# now determine the greenwich apparent sidereal time for the input obstime

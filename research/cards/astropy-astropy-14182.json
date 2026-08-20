@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "astropy-astropy-14182",
+  "title": "Please support header rows in RestructuredText output",
+  "bug_trigger": "A patch changes astropy/io/ascii/rst.py near def get_fixedwidth_params(self, line): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows",
+  "affected_symbols": [
+    {
+      "path": "astropy/io/ascii/rst.py",
+      "symbol": "def get_fixedwidth_params(self, line):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "start_line = 3",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": ">>> from astropy.table import QTable",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "astropy-astropy-14182",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "astropy/io/ascii/tests/test_rst.py",
+      "name": "astropy/io/ascii/tests/test_rst.py::test_rst_with_header_rows",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "astropy/io/ascii/rst.py"
+    ],
+    "symbols": [
+      "def get_fixedwidth_params(self, line):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/astropy/astropy/pull/14182",
+      "sha": "7524bd185df2cc931fe2e374742a41cb768efbbf",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/astropy/astropy/commit/a5917978be39d13cd90b517e1de4e7a539ffaa48",
+      "sha": "a5917978be39d13cd90b517e1de4e7a539ffaa48",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "a5917978be39d13cd90b517e1de4e7a539ffaa48",
+  "fixed_commit": "7524bd185df2cc931fe2e374742a41cb768efbbf",
+  "repository": "astropy/astropy",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/astropy/astropy/blob/main/LICENSE.rst"
+  },
+  "timestamps": {
+    "reported": "2022-12-16T11:13:37Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:22f5fbe5c2f825e53b7e81c86c3e43689dd3c1b8f5164bba361f0fcd457077c8"
+}

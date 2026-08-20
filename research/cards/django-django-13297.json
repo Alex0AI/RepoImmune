@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13297",
+  "title": "TemplateView.get_context_data()'s kwargs returns SimpleLazyObjects that causes a crash when filtering.",
+  "bug_trigger": "A patch changes django/views/generic/base.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_template_params_filtering (generic_views.test_base.DeprecationTests)",
+  "affected_symbols": [
+    {
+      "path": "django/views/generic/base.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "from django.utils.functional import SimpleLazyObject",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "from django.utils.functional import lazy",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/generic_views/test_base.py",
+      "name": "test_template_params_filtering (generic_views.test_base.DeprecationTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/views/generic/base.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13297",
+      "sha": "20799cc0a6d98816b9ef0577e24691bd26b80d7d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/8954f255bbf5f4ee997fd6de62cb50fc9b5dd697",
+      "sha": "8954f255bbf5f4ee997fd6de62cb50fc9b5dd697",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "8954f255bbf5f4ee997fd6de62cb50fc9b5dd697",
+  "fixed_commit": "20799cc0a6d98816b9ef0577e24691bd26b80d7d",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-08-12T11:20:33Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:187efc6afaea32207b65a17d28a5ef446e0e8cc24a7308e61eefc980b5012753"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14017",
+  "title": "Q(...) & Exists(...) raises a TypeError",
+  "bug_trigger": "A patch changes django/db/models/query_utils.py near def __init__(self, *args, _connector=None, _negated=False, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_boolean_expression_combined (expressions.tests.BasicExpressionsTests), test_boolean_expression_combined_with_empty_Q (expressions.tests.BasicExpressionsTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/query_utils.py",
+      "symbol": "def __init__(self, *args, _connector=None, _negated=False, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if not isinstance(other, Q):",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if not(isinstance(other, Q) or getattr(other, 'conditional', False) is True):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_boolean_expression_combined (expressions.tests.BasicExpressionsTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/expressions/tests.py",
+      "name": "test_boolean_expression_combined_with_empty_Q (expressions.tests.BasicExpressionsTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/query_utils.py"
+    ],
+    "symbols": [
+      "def __init__(self, *args, _connector=None, _negated=False, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14017",
+      "sha": "f2bef2b7bc6c817af0f5fa77e1052a1f5ce12f71",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/466920f6d726eee90d5566e0a9948e92b33a122e",
+      "sha": "466920f6d726eee90d5566e0a9948e92b33a122e",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "466920f6d726eee90d5566e0a9948e92b33a122e",
+  "fixed_commit": "f2bef2b7bc6c817af0f5fa77e1052a1f5ce12f71",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-02-18T13:05:27Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:34173d3c7790cc3e87e36906995aa20595442c4e6b933b11d00378f0976e4070"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14053",
+  "title": "HashedFilesMixin's post_process() yields multiple times for the same file",
+  "bug_trigger": "A patch changes django/contrib/staticfiles/storage.py near def post_process(self, paths, dry_run=False, **options): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): post_processing behaves correctly.",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/staticfiles/storage.py",
+      "symbol": "def post_process(self, paths, dry_run=False, **options):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "# Do a single pass first. Post-process all files once, then repeat for",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "# Adjustable files to yield at end, keyed by the original path.",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/staticfiles_tests/test_storage.py",
+      "name": "post_processing behaves correctly.",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/staticfiles/storage.py"
+    ],
+    "symbols": [
+      "def post_process(self, paths, dry_run=False, **options):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "cache"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14053",
+      "sha": "337cd652a5f7d7fcbc6c413d11f8bac1f87379d0",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/179ee13eb37348cd87169a198aec18fedccc8668",
+      "sha": "179ee13eb37348cd87169a198aec18fedccc8668",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "179ee13eb37348cd87169a198aec18fedccc8668",
+  "fixed_commit": "337cd652a5f7d7fcbc6c413d11f8bac1f87379d0",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-02-25T23:57:27Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:34b754dde84431b4f87625f37fc50a087f32f8fa4abb16a7d6fc12a4e5f4438e"
+}

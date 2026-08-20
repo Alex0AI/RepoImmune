@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14034",
+  "title": "MultiValueField ignores a required value of a sub field",
+  "bug_trigger": "A patch changes django/forms/boundfield.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_render_required_attributes (forms_tests.field_tests.test_multivaluefield.MultiValueFieldTest)",
+  "affected_symbols": [
+    {
+      "path": "django/forms/boundfield.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "from django.forms.widgets import Textarea, TextInput",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "from django.forms.widgets import MultiWidget, Textarea, TextInput",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/forms_tests/field_tests/test_multivaluefield.py",
+      "name": "test_render_required_attributes (forms_tests.field_tests.test_multivaluefield.MultiValueFieldTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/forms/boundfield.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14034",
+      "sha": "2d0ae8da80e1ed37e94f3abad5c80145a00e688f",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/db1fc5cd3c5d36cdb5d0fe4404efd6623dd3e8fb",
+      "sha": "db1fc5cd3c5d36cdb5d0fe4404efd6623dd3e8fb",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "db1fc5cd3c5d36cdb5d0fe4404efd6623dd3e8fb",
+  "fixed_commit": "2d0ae8da80e1ed37e94f3abad5c80145a00e688f",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-02-22T19:32:50Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:85fb1d62dae143b046c4da5ace8024a5464b273101402cc7fd26851993277545"
+}

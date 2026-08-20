@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11749",
+  "title": "call_command fails when argument of required mutually exclusive group is passed in kwargs.",
+  "bug_trigger": "A patch changes django/core/management/__init__.py near def get_actions(parser): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_mutually_exclusive_group_required_options (user_commands.tests.CommandTests)",
+  "affected_symbols": [
+    {
+      "path": "django/core/management/__init__.py",
+      "symbol": "def get_actions(parser):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "for opt in parser_actions if opt.required and opt.dest in options",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "mutually_exclusive_required_options = {",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/user_commands/management/commands/mutually_exclusive_required.py",
+      "name": "test_mutually_exclusive_group_required_options (user_commands.tests.CommandTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/management/__init__.py"
+    ],
+    "symbols": [
+      "def get_actions(parser):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11749",
+      "sha": "6c379f1a1897a0e0b95531ea7d9806b17b22ff89",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/350123f38c2b6217c38d70bfbd924a9ba3df1289",
+      "sha": "350123f38c2b6217c38d70bfbd924a9ba3df1289",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "350123f38c2b6217c38d70bfbd924a9ba3df1289",
+  "fixed_commit": "6c379f1a1897a0e0b95531ea7d9806b17b22ff89",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-09-05T21:47:44Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:492e682da81873a8f845e71371f5cba4168dc765531f36016ff79638ad0033d2"
+}

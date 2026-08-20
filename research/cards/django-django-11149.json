@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11149",
+  "title": "Admin inlines for auto-created ManyToManyFields are editable if the user only has the view permission",
+  "bug_trigger": "A patch changes django/contrib/admin/options.py near def get_queryset(self, request): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_inline_add_m2m_view_only_perm (admin_inlines.tests.TestInlinePermissions), test_inline_change_m2m_view_only_perm (admin_inlines.tests.TestInlinePermissions)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admin/options.py",
+      "symbol": "def get_queryset(self, request):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "# We're checking the rights to an auto-created intermediate model,",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def _has_any_perms_for_target_model(self, request, perms):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_inlines/models.py",
+      "name": "test_inline_add_m2m_view_only_perm (admin_inlines.tests.TestInlinePermissions)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_inlines/models.py",
+      "name": "test_inline_change_m2m_view_only_perm (admin_inlines.tests.TestInlinePermissions)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admin/options.py"
+    ],
+    "symbols": [
+      "def get_queryset(self, request):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11149",
+      "sha": "8335d59200e4c64dfe3348ea93989d95e0107439",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e245046bb6e8b32360aa48b8a41fb7050f0fc730",
+      "sha": "e245046bb6e8b32360aa48b8a41fb7050f0fc730",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e245046bb6e8b32360aa48b8a41fb7050f0fc730",
+  "fixed_commit": "8335d59200e4c64dfe3348ea93989d95e0107439",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-03-30T18:14:35Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:5124aff4477362799fda961d677ad6cd19a3cc60b09cf8b19022282e45239d42"
+}

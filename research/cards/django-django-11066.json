@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11066",
+  "title": "RenameContentType._rename() doesn't save the content type on the correct database",
+  "bug_trigger": "A patch changes django/contrib/contenttypes/management/__init__.py near def _rename(self, apps, schema_editor, old_model, new_model): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_existing_content_type_rename_other_database (contenttypes_tests.test_operations.ContentTypeOperationsTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/contenttypes/management/__init__.py",
+      "symbol": "def _rename(self, apps, schema_editor, old_model, new_model):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "content_type.save(update_fields={'model'})",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "content_type.save(using=db, update_fields={'model'})",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-11066",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/contenttypes_tests/test_operations.py",
+      "name": "test_existing_content_type_rename_other_database (contenttypes_tests.test_operations.ContentTypeOperationsTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/contenttypes/management/__init__.py"
+    ],
+    "symbols": [
+      "def _rename(self, apps, schema_editor, old_model, new_model):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11066",
+      "sha": "661e6cc2c97d9bcb45198be787409488e1825c90",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/4b45b6c8e4d7c9701a332e80d3b1c84209dc36e2",
+      "sha": "4b45b6c8e4d7c9701a332e80d3b1c84209dc36e2",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "4b45b6c8e4d7c9701a332e80d3b1c84209dc36e2",
+  "fixed_commit": "661e6cc2c97d9bcb45198be787409488e1825c90",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-03-09T13:03:14Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:f92c240782cd2dadadbc60f2305e92b2cc58987ad11d65f6405458e7f5cb670a"
+}

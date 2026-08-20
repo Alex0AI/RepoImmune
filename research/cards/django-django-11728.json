@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11728",
+  "title": "simplify_regexp() doesn't replace trailing groups.",
+  "bug_trigger": "A patch changes django/contrib/admindocs/utils.py near def replace_named_groups(pattern): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_simplify_regex (admin_docs.test_views.AdminDocViewFunctionsTests), test_app_not_found (admin_docs.test_views.TestModelDetailView)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admindocs/utils.py",
+      "symbol": "def replace_named_groups(pattern):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "# If brackets are balanced, the end of the string for the current",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "3. ^(?P<a>\\w+)/b/(\\w+) ==> ^<a>/b/(\\w+)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_simplify_regex (admin_docs.test_views.AdminDocViewFunctionsTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/admin_docs/test_views.py",
+      "name": "test_app_not_found (admin_docs.test_views.TestModelDetailView)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admindocs/utils.py"
+    ],
+    "symbols": [
+      "def replace_named_groups(pattern):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11728",
+      "sha": "03fa846c6ab6abb7948ed6ecc84f35e7b6244b54",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/05457817647368be4b019314fcc655445a5b4c0c",
+      "sha": "05457817647368be4b019314fcc655445a5b4c0c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "05457817647368be4b019314fcc655445a5b4c0c",
+  "fixed_commit": "03fa846c6ab6abb7948ed6ecc84f35e7b6244b54",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-08-29T17:31:03Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:6a6979ce3699ea04ac0d3ab972e04674d4d849d56ea93386470dc61020688fa9"
+}

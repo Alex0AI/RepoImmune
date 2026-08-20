@@ -1,0 +1,1 @@
+sliced_out_world_coords = self._pixel_to_world_values_all(*[0]*len(self._pixel_keep))

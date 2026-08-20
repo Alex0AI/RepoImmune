@@ -1,0 +1,1 @@
+_strg_comment_RE = re.compile(f"({_strg})? *{_comm_field}?$")

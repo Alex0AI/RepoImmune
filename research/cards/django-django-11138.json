@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11138",
+  "title": "TIME_ZONE value in DATABASES settings is not used when making dates timezone-aware on MySQL, SQLite, and Oracle.",
+  "bug_trigger": "A patch changes django/db/backends/mysql/operations.py near def date_trunc_sql(self, lookup_type, field_name): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_query_convert_timezones (timezones.tests.NewDatabaseTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/backends/mysql/operations.py",
+      "symbol": "def date_trunc_sql(self, lookup_type, field_name):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if settings.USE_TZ:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if settings.USE_TZ and self.connection.timezone_name != tzname:",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/timezones/tests.py",
+      "name": "test_query_convert_timezones (timezones.tests.NewDatabaseTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/backends/mysql/operations.py"
+    ],
+    "symbols": [
+      "def date_trunc_sql(self, lookup_type, field_name):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11138",
+      "sha": "cef3f2d3c64055c9fc1757fd61dba24b557a2add",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/c84b91b7603e488f7171fdff8f08368ef3d6b856",
+      "sha": "c84b91b7603e488f7171fdff8f08368ef3d6b856",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "c84b91b7603e488f7171fdff8f08368ef3d6b856",
+  "fixed_commit": "cef3f2d3c64055c9fc1757fd61dba24b557a2add",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-03-28T13:11:56Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:f8fa7e98b8342120e503f22132fcb011b07bb476f709e51f692e1be77adf2e0a"
+}

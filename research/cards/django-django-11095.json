@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11095",
+  "title": "add ModelAdmin.get_inlines() hook to allow set inlines based on the request or model instance.",
+  "bug_trigger": "A patch changes django/contrib/admin/options.py near def __str__(self): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_get_inline_instances_override_get_inlines (generic_inline_admin.tests.GenericInlineModelAdminTest)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/admin/options.py",
+      "symbol": "def __str__(self):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "for inline_class in self.inlines:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "def get_inlines(self, request, obj):",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-11095",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/generic_inline_admin/tests.py",
+      "name": "test_get_inline_instances_override_get_inlines (generic_inline_admin.tests.GenericInlineModelAdminTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/admin/options.py"
+    ],
+    "symbols": [
+      "def __str__(self):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11095",
+      "sha": "917fd9d03fdd21538864af4b412ac30b36d99268",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/7d49ad76562e8c0597a0eb66046ab423b12888d8",
+      "sha": "7d49ad76562e8c0597a0eb66046ab423b12888d8",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "7d49ad76562e8c0597a0eb66046ab423b12888d8",
+  "fixed_commit": "917fd9d03fdd21538864af4b412ac30b36d99268",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-03-19T15:17:28Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:89863342c47fa5ea73ab8d02f1ba3a74140ff3a7d703b2808c299c109632f72b"
+}

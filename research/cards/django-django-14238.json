@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-14238",
+  "title": "DEFAULT_AUTO_FIELD subclass check fails for subclasses of BigAutoField and SmallAutoField.",
+  "bug_trigger": "A patch changes django/db/models/fields/__init__.py near def __instancecheck__(self, instance): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_issubclass_of_autofield (model_fields.test_autofield.AutoFieldInheritanceTests), test_default_auto_field_setting_bigautofield_subclass (model_options.test_default_pk.TestDefaultPK)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/fields/__init__.py",
+      "symbol": "def __instancecheck__(self, instance):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return subclass in self._subclasses or super().__subclasscheck__(subclass)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "return issubclass(subclass, self._subclasses) or super().__subclasscheck__(subclass)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/model_fields/test_autofield.py",
+      "name": "test_issubclass_of_autofield (model_fields.test_autofield.AutoFieldInheritanceTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/model_fields/test_autofield.py",
+      "name": "test_default_auto_field_setting_bigautofield_subclass (model_options.test_default_pk.TestDefaultPK)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/fields/__init__.py"
+    ],
+    "symbols": [
+      "def __instancecheck__(self, instance):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/14238",
+      "sha": "45a58c31e64dbfdecab1178b1d00a3803a90ea2d",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/30e123ed351317b7527f632b3b7dc4e81e850449",
+      "sha": "30e123ed351317b7527f632b3b7dc4e81e850449",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "30e123ed351317b7527f632b3b7dc4e81e850449",
+  "fixed_commit": "45a58c31e64dbfdecab1178b1d00a3803a90ea2d",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2021-04-08T10:41:31Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:39b03d812cda4d36ad032cdb34fc554d0b091a185bbc2556e0e7ef433cad5262"
+}

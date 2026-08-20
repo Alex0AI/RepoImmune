@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11477",
+  "title": "translate_url() creates an incorrect URL when optional named groups are missing in the URL pattern",
+  "bug_trigger": "A patch changes django/urls/resolvers.py near def match(self, path): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 3 fail-to-pass test(s): test_re_path_with_optional_parameter (urlpatterns.tests.SimplifiedURLTests), test_two_variable_at_start_of_path_pattern (urlpatterns.tests.SimplifiedURLTests), test_translate_url_utility (i18n.patterns.tests.URLTranslationTests)",
+  "affected_symbols": [
+    {
+      "path": "django/urls/resolvers.py",
+      "symbol": "def match(self, path):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "kwargs = match.groupdict()",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "kwargs = {k: v for k, v in match.groupdict().items() if v is not None}",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/i18n/patterns/tests.py",
+      "name": "test_re_path_with_optional_parameter (urlpatterns.tests.SimplifiedURLTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/i18n/patterns/tests.py",
+      "name": "test_two_variable_at_start_of_path_pattern (urlpatterns.tests.SimplifiedURLTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/i18n/patterns/tests.py",
+      "name": "test_translate_url_utility (i18n.patterns.tests.URLTranslationTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/urls/resolvers.py"
+    ],
+    "symbols": [
+      "def match(self, path):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11477",
+      "sha": "76b993a117b61c41584e95149a67d8a1e9f49dd1",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e28671187903e6aca2428374fdd504fca3032aee",
+      "sha": "e28671187903e6aca2428374fdd504fca3032aee",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e28671187903e6aca2428374fdd504fca3032aee",
+  "fixed_commit": "76b993a117b61c41584e95149a67d8a1e9f49dd1",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-06-14T17:40:45Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:6308e85a88306b028fd1e71f4959111b92b31e365a3fbd9937f1dce4ca19b76a"
+}

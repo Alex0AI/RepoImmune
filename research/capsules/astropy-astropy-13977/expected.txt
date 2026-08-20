@@ -1,0 +1,1 @@
+result : `~astropy.units.Quantity` or `NotImplemented`

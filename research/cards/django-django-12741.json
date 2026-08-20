@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12741",
+  "title": "Simplify signature of `DatabaseOperations.execute_sql_flush()`",
+  "bug_trigger": "A patch changes django/core/management/commands/flush.py near def handle(self, **options): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_execute_sql_flush_statements (backends.base.test_operations.SqlFlushTests), test_sequence_name_length_limits_flush (backends.tests.LongNameTest)",
+  "affected_symbols": [
+    {
+      "path": "django/core/management/commands/flush.py",
+      "symbol": "def handle(self, **options):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "connection.ops.execute_sql_flush(database, sql_list)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "connection.ops.execute_sql_flush(sql_list)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/backends/base/test_operations.py",
+      "name": "test_execute_sql_flush_statements (backends.base.test_operations.SqlFlushTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/backends/base/test_operations.py",
+      "name": "test_sequence_name_length_limits_flush (backends.tests.LongNameTest)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/management/commands/flush.py"
+    ],
+    "symbols": [
+      "def handle(self, **options):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12741",
+      "sha": "5673d4b10240b1b00bdf060fb7ac6bef858f38a3",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/537d422942b53bc0a2b6a51968f379c0de07793c",
+      "sha": "537d422942b53bc0a2b6a51968f379c0de07793c",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "537d422942b53bc0a2b6a51968f379c0de07793c",
+  "fixed_commit": "5673d4b10240b1b00bdf060fb7ac6bef858f38a3",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-04-17T22:35:55Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:f17b9f1ab52979f6a7d0cd6887d1d82b24d22972a78f5097151ddfe100cffe91"
+}

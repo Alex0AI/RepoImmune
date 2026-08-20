@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13786",
+  "title": "squashmigrations does not unset model options when optimizing CreateModel and AlterModelOptions",
+  "bug_trigger": "A patch changes django/db/migrations/operations/models.py near def reduce(self, operation, app_label): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_create_model_and_remove_model_options (migrations.test_optimizer.OptimizerTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/migrations/operations/models.py",
+      "symbol": "def reduce(self, operation, app_label):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "options={**self.options, **operation.options},",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "options = {**self.options, **operation.options}",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/migrations/test_optimizer.py",
+      "name": "test_create_model_and_remove_model_options (migrations.test_optimizer.OptimizerTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/migrations/operations/models.py"
+    ],
+    "symbols": [
+      "def reduce(self, operation, app_label):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "state"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13786",
+      "sha": "8d582bf51058e3a8094a58f624c81bd95b6edfb1",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/bb64b99b78a579cb2f6178011a4cf9366e634438",
+      "sha": "bb64b99b78a579cb2f6178011a4cf9366e634438",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "bb64b99b78a579cb2f6178011a4cf9366e634438",
+  "fixed_commit": "8d582bf51058e3a8094a58f624c81bd95b6edfb1",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-12-17T21:10:10Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:c4170be3d41a9fbeb1458cf2db2e86f4f882a56c5744309c7556e7cbe8239e3b"
+}

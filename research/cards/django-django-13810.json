@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13810",
+  "title": "MiddlewareNotUsed leaves undesired side effects when loading middleware in ASGI context",
+  "bug_trigger": "A patch changes django/core/handlers/base.py near def load_middleware(self, is_async=False): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_async_and_sync_middleware_chain_async_call (middleware_exceptions.tests.MiddlewareNotUsedTests)",
+  "affected_symbols": [
+    {
+      "path": "django/core/handlers/base.py",
+      "symbol": "def load_middleware(self, is_async=False):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "handler = self.adapt_method_mode(",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "adapted_handler = self.adapt_method_mode(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/middleware_exceptions/tests.py",
+      "name": "test_async_and_sync_middleware_chain_async_call (middleware_exceptions.tests.MiddlewareNotUsedTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/handlers/base.py"
+    ],
+    "symbols": [
+      "def load_middleware(self, is_async=False):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "pagination"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13810",
+      "sha": "98ad327864aed8df245fd19ea9d2743279e11643",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/429d089d0a8fbd400e0c010708df4f0d16218970",
+      "sha": "429d089d0a8fbd400e0c010708df4f0d16218970",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "429d089d0a8fbd400e0c010708df4f0d16218970",
+  "fixed_commit": "98ad327864aed8df245fd19ea9d2743279e11643",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-12-26T12:31:18Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:86aa8d14fbd269f22c65d7c2c178fe87bcf26e2bc07639c10aa674809323d6ae"
+}

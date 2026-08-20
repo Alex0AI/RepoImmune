@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13195",
+  "title": "HttpResponse.delete_cookie() should preserve cookie's samesite.",
+  "bug_trigger": "A patch changes django/contrib/messages/storage/cookie.py near def _update_cookie(self, encoded_data, response): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 5 fail-to-pass test(s): test_delete_cookie_samesite (responses.test_cookie.DeleteCookieTests), test_delete_cookie_secure_samesite_none (responses.test_cookie.DeleteCookieTests), test_session_delete_on_end (sessions_tests.tests.SessionMiddlewareTests), test_session_delete_on_end_with_custom_domain_and_path (sessions_tests.t",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/messages/storage/cookie.py",
+      "symbol": "def _update_cookie(self, encoded_data, response):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "response.delete_cookie(self.cookie_name, domain=settings.SESSION_COOKIE_DOMAIN)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "response.delete_cookie(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/messages_tests/test_cookie.py",
+      "name": "test_delete_cookie_samesite (responses.test_cookie.DeleteCookieTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/messages_tests/test_cookie.py",
+      "name": "test_delete_cookie_secure_samesite_none (responses.test_cookie.DeleteCookieTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/messages_tests/test_cookie.py",
+      "name": "test_session_delete_on_end (sessions_tests.tests.SessionMiddlewareTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/messages_tests/test_cookie.py",
+      "name": "test_session_delete_on_end_with_custom_domain_and_path (sessions_tests.tests.SessionMiddlewareTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/messages_tests/test_cookie.py",
+      "name": "test_cookie_setings (messages_tests.test_cookie.CookieTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/messages/storage/cookie.py"
+    ],
+    "symbols": [
+      "def _update_cookie(self, encoded_data, response):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13195",
+      "sha": "240cbb63bf9965c63d7a3cc9032f91410f414d46",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/156a2138db20abc89933121e4ff2ee2ce56a173a",
+      "sha": "156a2138db20abc89933121e4ff2ee2ce56a173a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "156a2138db20abc89933121e4ff2ee2ce56a173a",
+  "fixed_commit": "240cbb63bf9965c63d7a3cc9032f91410f414d46",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-07-15T11:00:07Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:dc2cc74d8303e337be72f20d4187a9dd0889d1b7d84448c4b9b4a273d0a138a7"
+}

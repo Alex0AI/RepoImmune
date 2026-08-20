@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13212",
+  "title": "Make validators include the provided value in ValidationError",
+  "bug_trigger": "A patch changes django/core/validators.py near def __call__(self, value): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 5 fail-to-pass test(s): test_value_placeholder_with_char_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests), test_value_placeholder_with_decimal_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests), test_value_placeholder_with_file_field (forms_tests.tests.test_validators.ValidatorCustom",
+  "affected_symbols": [
+    {
+      "path": "django/core/validators.py",
+      "symbol": "def __call__(self, value):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "raise ValidationError(self.message, code=self.code)",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "raise ValidationError(self.message, code=self.code, params={'value': value})",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/forms_tests/tests/test_validators.py",
+      "name": "test_value_placeholder_with_char_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/forms_tests/tests/test_validators.py",
+      "name": "test_value_placeholder_with_decimal_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/forms_tests/tests/test_validators.py",
+      "name": "test_value_placeholder_with_file_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/forms_tests/tests/test_validators.py",
+      "name": "test_value_placeholder_with_integer_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/forms_tests/tests/test_validators.py",
+      "name": "test_value_placeholder_with_null_character (forms_tests.tests.test_validators.ValidatorCustomMessageTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/core/validators.py"
+    ],
+    "symbols": [
+      "def __call__(self, value):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "exception"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13212",
+      "sha": "83fbaa92311dd96e330496a0e443ea71b9c183e2",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/f4e93919e4608cfc50849a1f764fd856e0917401",
+      "sha": "f4e93919e4608cfc50849a1f764fd856e0917401",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "f4e93919e4608cfc50849a1f764fd856e0917401",
+  "fixed_commit": "83fbaa92311dd96e330496a0e443ea71b9c183e2",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-07-21T02:53:58Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:40118b5be5ad4e41ab604021288edab22919960e8bd9abf93b171d3b46cb553c"
+}

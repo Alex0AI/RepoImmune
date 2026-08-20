@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10999",
+  "title": "Fix parse_duration() for some negative durations",
+  "bug_trigger": "A patch changes django/utils/dateparse.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 2 fail-to-pass test(s): test_negative (utils_tests.test_dateparse.DurationParseTests), test_parse_postgresql_format (utils_tests.test_dateparse.DurationParseTests)",
+  "affected_symbols": [
+    {
+      "path": "django/utils/dateparse.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "r'((?:(?P<hours>-?\\d+):)(?=\\d+:\\d+))?'",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "r'(?P<sign>-?)'",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-10999",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/utils_tests/test_dateparse.py",
+      "name": "test_negative (utils_tests.test_dateparse.DurationParseTests)",
+      "framework": "pytest"
+    },
+    {
+      "path": "tests/utils_tests/test_dateparse.py",
+      "name": "test_parse_postgresql_format (utils_tests.test_dateparse.DurationParseTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/utils/dateparse.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "other"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/10999",
+      "sha": "99fc5dc13c12d874ffc1c8f47a6421494e720b31",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/36300ef336e3f130a0dadc1143163ff3d23dc843",
+      "sha": "36300ef336e3f130a0dadc1143163ff3d23dc843",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "36300ef336e3f130a0dadc1143163ff3d23dc843",
+  "fixed_commit": "99fc5dc13c12d874ffc1c8f47a6421494e720b31",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-02-16T07:44:50Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:e220a1d7b9930e920b4970dd5ee03804daf7c7263a18e74fc3fe21437b1d623f"
+}

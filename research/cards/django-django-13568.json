@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-13568",
+  "title": "Skip auth.E003 system check for USERNAME_FIELD with total UniqueConstraints.",
+  "bug_trigger": "A patch changes django/contrib/auth/checks.py near def check_user_model(app_configs=None, **kwargs): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_username_unique_with_model_constraint (auth_tests.test_checks.UserModelChecksTests)",
+  "affected_symbols": [
+    {
+      "path": "django/contrib/auth/checks.py",
+      "symbol": "def check_user_model(app_configs=None, **kwargs):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "if not cls._meta.get_field(cls.USERNAME_FIELD).unique:",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "if not cls._meta.get_field(cls.USERNAME_FIELD).unique and not any(",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/auth_tests/test_checks.py",
+      "name": "test_username_unique_with_model_constraint (auth_tests.test_checks.UserModelChecksTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/contrib/auth/checks.py"
+    ],
+    "symbols": [
+      "def check_user_model(app_configs=None, **kwargs):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/13568",
+      "sha": "f7963615eb7286fa8bff9b294c28452cf13738d0",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/ede9fac75807fe5810df66280a60e7068cc97e4a",
+      "sha": "ede9fac75807fe5810df66280a60e7068cc97e4a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "ede9fac75807fe5810df66280a60e7068cc97e4a",
+  "fixed_commit": "f7963615eb7286fa8bff9b294c28452cf13738d0",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2020-10-19T15:20:08Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:8cc43a0795c022d2ee3a9a7a1d9aece0f36574c267c4f768e4fdb933e9e10f60"
+}

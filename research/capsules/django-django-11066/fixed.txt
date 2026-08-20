@@ -1,0 +1,1 @@
+content_type.save(using=db, update_fields={'model'})

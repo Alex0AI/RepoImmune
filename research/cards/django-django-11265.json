@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11265",
+  "title": "Using exclude on annotated FilteredRelation doesn't work",
+  "bug_trigger": "A patch changes django/db/models/sql/query.py near def trim_start(self, names_with_path): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_with_exclude (filtered_relation.tests.FilteredRelationTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/models/sql/query.py",
+      "symbol": "def trim_start(self, names_with_path):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "# (that is, self). We can't do this for LEFT JOINs because we would",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "query._filtered_relations = self._filtered_relations",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/filtered_relation/tests.py",
+      "name": "test_with_exclude (filtered_relation.tests.FilteredRelationTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/models/sql/query.py"
+    ],
+    "symbols": [
+      "def trim_start(self, names_with_path):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11265",
+      "sha": "6b736dd0747dc77473f1f7b691c196ef5912d7dd",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/21aa2a5e785eef1f47beb1c3760fdd7d8915ae09",
+      "sha": "21aa2a5e785eef1f47beb1c3760fdd7d8915ae09",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "21aa2a5e785eef1f47beb1c3760fdd7d8915ae09",
+  "fixed_commit": "6b736dd0747dc77473f1f7b691c196ef5912d7dd",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-04-21T12:57:28Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:9fe478b382167f3184d07e39ccda48a12f8ac24b35e4f6289d27c742c35dea49"
+}

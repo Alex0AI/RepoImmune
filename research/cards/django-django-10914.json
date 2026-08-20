@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-10914",
+  "title": "Set default FILE_UPLOAD_PERMISSION to 0o644.",
+  "bug_trigger": "A patch changes django/conf/global_settings.py near def gettext_noop(s): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_override_file_upload_permissions (test_utils.tests.OverrideSettingsTests)",
+  "affected_symbols": [
+    {
+      "path": "django/conf/global_settings.py",
+      "symbol": "def gettext_noop(s):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "FILE_UPLOAD_PERMISSIONS = None",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "FILE_UPLOAD_PERMISSIONS = 0o644",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "django-django-10914",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/test_utils/tests.py",
+      "name": "test_override_file_upload_permissions (test_utils.tests.OverrideSettingsTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/conf/global_settings.py"
+    ],
+    "symbols": [
+      "def gettext_noop(s):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "pagination"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/10914",
+      "sha": "22aab8662f0368b63f91f2526bdd0532524bc0fe",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/e7fd69d051eaa67cb17f172a39b57253e9cb831a",
+      "sha": "e7fd69d051eaa67cb17f172a39b57253e9cb831a",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "e7fd69d051eaa67cb17f172a39b57253e9cb831a",
+  "fixed_commit": "22aab8662f0368b63f91f2526bdd0532524bc0fe",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-01-30T13:13:20Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:e793067637f6e0cf48872e0a98982759ee4d7e17fcc8f97b664288e7bec89005"
+}

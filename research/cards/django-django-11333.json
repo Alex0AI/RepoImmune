@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-11333",
+  "title": "Optimization: Multiple URLResolvers may be unintentionally be constructed by calls to `django.urls.resolvers.get_resolve",
+  "bug_trigger": "A patch changes django/urls/base.py near <module> back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_resolver_cache_default__root_urlconf (urlpatterns.test_resolvers.ResolverCacheTests)",
+  "affected_symbols": [
+    {
+      "path": "django/urls/base.py",
+      "symbol": "<module>",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "from .resolvers import get_ns_resolver, get_resolver",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "from .resolvers import _get_cached_resolver, get_ns_resolver, get_resolver",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/urlpatterns/test_resolvers.py",
+      "name": "test_resolver_cache_default__root_urlconf (urlpatterns.test_resolvers.ResolverCacheTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/urls/base.py"
+    ],
+    "symbols": [
+      "<module>"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "null"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/11333",
+      "sha": "54dcfbc36780054d39299bfd1078938e5dd4e839",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/55b68de643b5c2d5f0a8ea7587ab3b2966021ccc",
+      "sha": "55b68de643b5c2d5f0a8ea7587ab3b2966021ccc",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "55b68de643b5c2d5f0a8ea7587ab3b2966021ccc",
+  "fixed_commit": "54dcfbc36780054d39299bfd1078938e5dd4e839",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-05-06T21:00:53Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:f87855b81c92cc8d55c31226613d2e793715f607997957bf3a4d8275148508b3"
+}

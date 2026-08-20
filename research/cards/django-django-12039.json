@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "id": "django-django-12039",
+  "title": "Use proper whitespace in CREATE INDEX statements",
+  "bug_trigger": "A patch changes django/db/backends/ddl_references.py near def __init__(self, table, columns, quote_name, col_suffixes=()): back toward the historical deleted structure.",
+  "observed_failure": "SWE-bench Verified records 1 fail-to-pass test(s): test_descending_columns_list_sql (indexes.tests.SchemaIndexesTests)",
+  "affected_symbols": [
+    {
+      "path": "django/db/backends/ddl_references.py",
+      "symbol": "def __init__(self, table, columns, quote_name, col_suffixes=()):",
+      "language": "python"
+    }
+  ],
+  "buggy_pattern": {
+    "code": "return self.quote_name(column) + self.col_suffixes[idx]",
+    "kind": "historical_deleted_line",
+    "calls": []
+  },
+  "fixed_pattern": {
+    "code": "col = self.quote_name(column)",
+    "kind": "historical_added_line",
+    "calls": []
+  },
+  "invariant": "Preserve the fixed structural form at this evidenced path/symbol unless the linked regression tests and applicability are deliberately superseded.",
+  "reproducer": {
+    "capsule_id": "",
+    "status": "heuristic",
+    "scope": "structural patch replay; upstream behavior externally reported"
+  },
+  "regression_tests": [
+    {
+      "path": "tests/indexes/tests.py",
+      "name": "test_descending_columns_list_sql (indexes.tests.SchemaIndexesTests)",
+      "framework": "pytest"
+    }
+  ],
+  "applicability": {
+    "paths": [
+      "django/db/backends/ddl_references.py"
+    ],
+    "symbols": [
+      "def __init__(self, table, columns, quote_name, col_suffixes=()):"
+    ],
+    "languages": [
+      "python"
+    ],
+    "category": "boundary"
+  },
+  "evidence": [
+    {
+      "type": "swe_bench_verified",
+      "url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "pull_request",
+      "url": "https://github.com/django/django/pull/12039",
+      "sha": "6d590bcf1ff1d66990d03f8ee288e18110bdd995",
+      "observed_at": "2026-08-20T13:22:10Z"
+    },
+    {
+      "type": "base_commit",
+      "url": "https://github.com/django/django/commit/58c1acb1d6054dfec29d0f30b1033bae6ef62aec",
+      "sha": "58c1acb1d6054dfec29d0f30b1033bae6ef62aec",
+      "observed_at": "2026-08-20T13:22:10Z"
+    }
+  ],
+  "confidence": {
+    "score": 0.9,
+    "classification": "externally_reported",
+    "rationale": "Human-filtered benchmark record, merged PR, production patch, test patch and fail-to-pass test names are present; upstream tests were not run locally."
+  },
+  "limitations": [
+    "Invariant wording is conservative and mechanically generated from the patch, not a semantic human annotation.",
+    "The upstream environment was not executed locally.",
+    "The optional capsule checks structural patch identity only."
+  ],
+  "source_commit": "58c1acb1d6054dfec29d0f30b1033bae6ef62aec",
+  "fixed_commit": "6d590bcf1ff1d66990d03f8ee288e18110bdd995",
+  "repository": "django/django",
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "source": "https://github.com/django/django/blob/main/LICENSE"
+  },
+  "timestamps": {
+    "reported": "2019-11-06T21:14:34Z",
+    "mined": "2026-08-20T13:22:10Z"
+  },
+  "content_hash": "sha256:d8143cfeb23002d628286a961cd62d72f8038bd658d759d0509874b722a4f646"
+}
